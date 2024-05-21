@@ -1,9 +1,17 @@
+'use client';
+import { useState } from 'react';
 
-export default function Card(){
+export default function Card(props: { adverse: any; reverse: any; }){
+    const adverse = props.adverse;
+    const reverse = props.reverse;
+    const [reveal, setReveal] = useState(false);
+    
+    function handleClick (){
+        setReveal(!reveal);
+    }
     return (
-        <div className="grid gap-9 sm:grid-cols-2  bg-black max-w-sm">
-            Hola
+        <div className="h-4/5 w-1/3 rounded content-center text-center bg-white" onClick={handleClick}>
+            {(reveal) ? adverse:reverse}
         </div>
-  
     );
 }
