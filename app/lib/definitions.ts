@@ -3,7 +3,7 @@ type cardContent = {
     image: Blob | null;
 }
 
-export type Card = {
+export type CardType = {
     adverse: cardContent;
     reverse: cardContent;
 }
