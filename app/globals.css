@@ -31,3 +31,61 @@ body {
     text-wrap: balance;
   }
 }
+
+.animateUp{
+  animation: moveUp 1s ease forwards, fadeIn 1s ease forwards;
+}
+.animateDown{
+  animation: moveDown 1s ease forwards, fadeIn 1s ease forwards;
+}
+.animateLeft{
+  animation: moveLeft 1s ease forwards, fadeIn 1s ease forwards;
+}
+.animateRight{
+  animation: moveRight 1s ease forwards, fadeIn 1s ease forwards;
+}
+
+@keyframes fadeIn {
+  from{
+    opacity: 100%;
+  }
+  to{
+    opacity: 0%
+  }
+}
+
+@keyframes moveUp {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-1000px);
+  }
+}
+
+@keyframes moveRight {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-1000px);
+  }
+}
+
+@keyframes moveLeft {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(1000px);
+  }
+}
+
+@keyframes moveDown {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(1000px);
+  }
+}
