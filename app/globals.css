@@ -32,6 +32,16 @@ body {
   }
 }
 
+.card-dimensions{
+  min-width: 30%;
+  max-width: 80%;
+  height: 80%;
+}
+
+.animateFadeIn{
+  animation: fadeOut 2s ease forwards;
+}
+
 .animateUp{
   animation: moveUp 1s ease forwards, fadeIn 1s ease forwards;
 }
@@ -45,12 +55,56 @@ body {
   animation: moveRight 1s ease forwards, fadeIn 1s ease forwards;
 }
 
+
+.incorrect{
+  animation: turnRed 1s linear forwards;
+}
+
+.correct{
+  animation: turnGreen 1s linear forwards;
+}
+
+@keyframes turnGreen{
+  from{
+    box-shadow: 0px 0px 5px 0px rgba(255,255,255,0.75) inset;
+    -webkit-box-shadow: 0px 0px 5px 0px rgba(255,255,255,0.75) inset;
+    -moz-box-shadow: 0px 0px 5px 0px rgba(255,255,255,0.75) inset; 
+  }
+  to{
+    box-shadow: 0px 0px 15px 9px rgba(119,213,149,0.88) inset;
+-webkit-box-shadow: 0px 0px 15px 9px rgba(119,213,149,0.88) inset;
+-moz-box-shadow: 0px 0px 15px 9px rgba(119,213,149,0.88) inset;
+  }
+}
+
+@keyframes turnRed{
+  from{
+    box-shadow: 0px 0px 5px 0px rgba(255,255,255,0.75) inset;
+    -webkit-box-shadow: 0px 0px 5px 0px rgba(255,255,255,0.75) inset;
+    -moz-box-shadow: 0px 0px 5px 0px rgba(255,255,255,0.75) inset; 
+  }
+  to{
+    box-shadow: 0px 0px 15px 9px rgba(213,119,119,0.88) inset;
+-webkit-box-shadow: 0px 0px 15px 9px rgba(213,119,119,0.88) inset;
+-moz-box-shadow: 0px 0px 15px 9px rgba(213,119,119,0.88) inset;
+  }
+}
+
 @keyframes fadeIn {
   from{
     opacity: 100%;
   }
   to{
     opacity: 0%
+  }
+}
+
+@keyframes fadeOut {
+  from{
+    opacity: 0%;
+  }
+  to{
+    opacity: 100%
   }
 }
 
