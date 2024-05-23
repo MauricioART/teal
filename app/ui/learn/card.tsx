@@ -1,91 +1,119 @@
 'use client';
 import { useState } from 'react';
 import Button from './Button';
+import RadioButton from './RadioButton';
 import clsx from 'clsx';
 
+interface cardProps {
+    question: string;
+    answer: string | number;
+    options?: string[] ;
+    cardType: 0 | 1 | 2 ;
+    up: boolean; 
+    right: boolean; 
+    down: boolean; 
+    left: boolean;
+    setEnableArrowBtns: React.Dispatch<React.SetStateAction<boolean>>;
 
-export default function Card(props: { question: any; answer: any; cardType: number; up: boolean; right: boolean; down: boolean; left: boolean;}){
+}
+
+export default function Card(props: cardProps){
     const question = props.question;
     const answer = props.answer;
     const [reveal, setReveal] = useState(false);
-    const [disabled, setDisabled] = useState(false);
+    const [isDisabled, setDisabled] = useState(false);
     const [isHidden, setHidden] = useState(false);
+    const [isCorrect, setCorrect] = useState<boolean>(false);
     
+
+    let movementAnimationActive = props.up || props.down || props.left || props.right;
+
     const cardClasses = clsx(
-        'flex flex-col justify-between h-4/5 w-1/3 rounded content-center text-center shadow-lg bg-white',
+        'flex flex-col justify-between card-dimensions flex-wrap p-8 rounded content-center text-center shadow-lg bg-white',
         {
           'animateUp': props.up, 
           'animateDown': props.down,
           'animateLeft': props.left,
           'animateRight': props.right,
+          'correct': isCorrect && isDisabled && !movementAnimationActive,
+          'incorrect': !isCorrect && isDisabled && !movementAnimationActive,
         }
       );
     
     function handleReveal (){
         setReveal(!reveal);
+        props.setEnableArrowBtns(true);
     }
 
-    function handleClick(){
-        
-    }
-    function disable(){
-        return true;
+    function handleClick(event: React.MouseEvent<HTMLButtonElement>){
+        const target = event.target as HTMLButtonElement;
+        const id = parseInt(target.id);
+        if (props.answer === id){
+            setCorrect(true);
+        }
+        else{
+            setCorrect(false);
+        }
+        setDisabled(true);
+        props.setEnableArrowBtns(true);
     }
 
     switch (props.cardType){
         case 0:
             return (
-                <div className={cardClasses} onClick={handleClick}>
+                <div className={cardClasses}>
                     <div className='mt-16'>
                         {question}
                     </div>
                     <div className='flex justify-evenly mb-16'>
-                        <Button text="True" color="#98D7C2" handleButtonClick={handleClick}/>
-                        <Button text="False" color="#98D7C2" handleButtonClick={handleClick}/>
+                        <Button key={0} id={0} text="True" color="#98D7C2" handleButtonClick={handleClick} isDisabled={isDisabled}/>
+                        <Button key={1} id={1} text="False" color="#98D7C2" handleButtonClick={handleClick} isDisabled={isDisabled}/>
                     </div>
                     
                 </div>
             );
             break;
         case 1:
+            if (props.options)
             return (
-                <div className={cardClasses} onClick={handleClick}>
+                <div className={cardClasses}>
                     <div className='mt-16'>
                         {question}
                     </div>
                     <div className='flex flex-col flex-wrap items-start ml-4 mb-10'>
                     <div>
-                        <Button text="A" color="#98D7C2" handleButtonClick={handleClick}/>
-                        {answer[0]}
+                        <Button key={0} id={0} text="A" color="#98D7C2" handleButtonClick={handleClick} isDisabled={isDisabled}/>
+                        {props.options[0]}
                     </div>
                     <div>
-                        <Button text="B" color="#98D7C2" handleButtonClick={handleClick}/>
-                        {answer[1]}
+                        <Button key={1} id={1} text="B" color="#98D7C2" handleButtonClick={handleClick} isDisabled={isDisabled}/>
+                        {props.options[1]}
                     </div>
                     <div>
-                        <Button text="C" color="#98D7C2" handleButtonClick={handleClick}/>
-                        {answer[2]}
+                        <Button key={2} id={2} text="C" color="#98D7C2" handleButtonClick={handleClick} isDisabled={isDisabled}/>
+                        {props.options[2]}
                     </div>
                     <div>
-                        <Button text="D" color="#98D7C2" handleButtonClick={handleClick} />
-                        {answer[3]}
+                        <Button key={3}  id={3} text="D" color="#98D7C2" handleButtonClick={handleClick} isDisabled={isDisabled}/>
+                        {props.options[3]}
                     </div>
+                        {/*<RadioButton options={answer}/>*/}
                     </div>
-                
+                    
                 </div>
             );
             break;
         case 2:
             return (
-                <div className={cardClasses} onClick={handleClick}>
+                <div className={cardClasses}>
                     <div className='mt-16'>
                         {question}
                     </div>
-                    <div>
-                    {(reveal) ? answer: null}
+                    <div className={(reveal)?'':'invisible'}>
+                        <p>{answer}</p>
                     </div>
                     <div className='mb-16' hidden={isHidden}>
-                        <Button text="Reveal" color="#98D7C2" handleButtonClick={handleReveal} />
+                        <Button key={0} id={0} text="Reveal" color="#98D7C2" handleButtonClick={handleReveal}isDisabled={isDisabled} />
                     </div>
                     
                 </div>
