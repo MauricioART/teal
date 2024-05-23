@@ -1,24 +1,20 @@
-import {useState} from "react";
-
 interface ButtonProps {
+    id: number;
     text: string;
     color: string;
-    handleButtonClick: () => void;
+    isDisabled: boolean;
+    handleButtonClick: (event: React.MouseEvent<HTMLButtonElement>,msg: string) => void;
   }
   
   export default function Button(props: ButtonProps) {
-    const [isDisabled, setDisabled] = useState(false);
 
     return (
       <button
-        disabled={isDisabled}
+        id={props.id.toString()}
+        disabled={props.isDisabled}
         className="h-auto rounded-full px-3 m-3"
         style={{ backgroundColor: props.color }}
-        onClick={()=>{
-          setDisabled(true);
-          props.handleButtonClick();
-        }} 
-        hidden={false}>
+        onClick={(event)=>{props.handleButtonClick(event,"Hello")}} >
         {props.text}
       </button>
     );
