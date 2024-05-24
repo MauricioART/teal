@@ -33,7 +33,7 @@ body {
 }
 
 .card-dimensions{
-  min-width: 30%;
+  min-width: 50%;
   max-width: 80%;
   height: 80%;
 }
@@ -43,16 +43,24 @@ body {
 }
 
 .animateUp{
-  animation: moveUp 1s ease forwards, fadeIn 1s ease forwards;
+  animation: moveUp 1s ease forwards, fadeIn 1s ease forwards,
+  moveDown 200ms linear 1s forwards, zoomOut 100ms linear 1s forwards,
+  zoomOut 500ms ease 1s reverse forwards, fadeOut 500ms ease 1s forwards;
 }
 .animateDown{
-  animation: moveDown 1s ease forwards, fadeIn 1s ease forwards;
+  animation: moveDown 1s ease forwards, fadeIn 1s ease forwards,
+  moveUp 200ms linear 1s forwards, zoomOut 100ms linear 1s forwards,
+  zoomOut 500ms ease 1s reverse forwards, fadeOut 500ms ease 1s forwards;
 }
 .animateLeft{
-  animation: moveLeft 1s ease forwards, fadeIn 1s ease forwards;
+  animation: moveLeft 1s ease forwards, fadeIn 1s ease forwards,
+  moveRight 200ms linear 1s forwards, zoomOut 100ms linear 1s forwards,
+  zoomOut 500ms ease 1s reverse forwards, fadeOut 500ms ease 1s forwards;
 }
 .animateRight{
-  animation: moveRight 1s ease forwards, fadeIn 1s ease forwards;
+  animation: moveRight 1s ease forwards, fadeIn 1s ease forwards,
+  moveLeft 200ms linear 1s forwards, zoomOut 100ms linear 1s forwards,
+  zoomOut 500ms ease 1s reverse forwards, fadeOut 500ms ease 1s forwards;
 }
 
 
@@ -141,5 +149,14 @@ body {
   }
   to {
     transform: translateY(1000px);
+  }
+}
+
+@keyframes zoomOut {
+  from{
+    transform: scale(1);
+  }
+  to{
+    transform: scale(0.5);
   }
 }
