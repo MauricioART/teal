@@ -3,12 +3,10 @@ import { useState } from 'react';
 import Button from './Button';
 import RadioButton from './RadioButton';
 import clsx from 'clsx';
+import { Card as card} from "@/app/lib/definitions";
 
 interface cardProps {
-    question: string;
-    answer: string | number;
-    options?: string[] ;
-    cardType: 0 | 1 | 2 ;
+    card: card;
     up: boolean; 
     right: boolean; 
     down: boolean; 
@@ -18,8 +16,8 @@ interface cardProps {
 }
 
 export default function Card(props: cardProps){
-    const question = props.question;
-    const answer = props.answer;
+    const question = props.card.question;
+    const answer = props.card.answer;
     const [reveal, setReveal] = useState(false);
     const [isDisabled, setDisabled] = useState(false);
     const [isHidden, setHidden] = useState(false);
@@ -48,7 +46,7 @@ export default function Card(props: cardProps){
     function handleClick(event: React.MouseEvent<HTMLButtonElement>){
         const target = event.target as HTMLButtonElement;
         const id = parseInt(target.id);
-        if (props.answer === id){
+        if (answer === id){
             setCorrect(true);
         }
         else{
@@ -58,7 +56,7 @@ export default function Card(props: cardProps){
         props.setEnableArrowBtns(true);
     }
 
-    switch (props.cardType){
+    switch (props.card.cardType){
         case 0:
             return (
                 <div className={cardClasses}>
@@ -74,7 +72,7 @@ export default function Card(props: cardProps){
             );
             break;
         case 1:
-            if (props.options)
+            if (props.card.options)
             return (
                 <div className={cardClasses}>
                     <div className='mt-16'>
@@ -83,19 +81,19 @@ export default function Card(props: cardProps){
                     <div className='flex flex-col flex-wrap items-start ml-4 mb-10'>
                     <div>
                         <Button key={0} id={0} text="A" color="#98D7C2" handleButtonClick={handleClick} isDisabled={isDisabled}/>
-                        {props.options[0]}
+                        {props.card.options[0]}
                     </div>
                     <div>
                         <Button key={1} id={1} text="B" color="#98D7C2" handleButtonClick={handleClick} isDisabled={isDisabled}/>
-                        {props.options[1]}
+                        {props.card.options[1]}
                     </div>
                     <div>
                         <Button key={2} id={2} text="C" color="#98D7C2" handleButtonClick={handleClick} isDisabled={isDisabled}/>
-                        {props.options[2]}
+                        {props.card.options[2]}
                     </div>
                     <div>
                         <Button key={3}  id={3} text="D" color="#98D7C2" handleButtonClick={handleClick} isDisabled={isDisabled}/>
-                        {props.options[3]}
+                        {props.card.options[3]}
                     </div>
                         {/*<RadioButton options={answer}/>*/}
                     </div>
