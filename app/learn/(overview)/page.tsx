@@ -6,7 +6,6 @@ import { ArrowDownIcon, ArrowLeftIcon, ArrowRightIcon, ArrowUpIcon } from '@hero
 import clsx from "clsx";
 import {Card as cardType} from "@/app/lib/definitions";
 
-
 export default  function Page() {
 
   const adverse = "¿Qué tipos de celulas existen?";
@@ -17,6 +16,49 @@ export default  function Page() {
   const [down, setDown] = useState(false);
   const [left, setLeft] = useState(false);
   const [enableArrowBtns,setEnableArrowBtns] = useState(false);
+  const [card, setCard] = useState<cardType | null>(null)
+
+  
+ const cards: cardType[] = [
+  {
+      question: "What is the capital of France?",
+      answer: 0,
+      options: ["Paris", "Berlin", "Rome", "Madrid"],
+      cardType: 1,
+      priority: 1
+  },
+  {
+      question: "What is 2 + 2?",
+      answer: 1,
+      options: ["3", "4", "5", "6"],
+      cardType: 1,
+      priority: 2
+  },
+  {
+      question: "Is the earth round?",
+      answer: 0,
+      options: ["True", "False"],
+      cardType: 0,
+      priority: 3
+  },
+  {
+      question: "What is the chemical symbol for water?",
+      answer: 0,
+      options: ["H2O", "CO2", "O2", "H2"],
+      cardType: 1,
+      priority: 4
+  },
+  {
+      question: "Solve the equation: x + 3 = 5. What is x?",
+      answer: 1,
+      options: ["1", "2", "3", "4"],
+      cardType: 1,
+      priority: 5
+  }
+];
+useEffect(()=>{
+  setCard(cards[3]);
+},[]);
 
   const upArrowBtnClasses = clsx(
     ' w-auto flex flex-col items-center opacity-0 ',
@@ -60,6 +102,10 @@ export default  function Page() {
     setEnableArrowBtns(false);
   }
   
+  if (!card) {
+    return <div>Loading...</div>; // Puedes mostrar un mensaje de carga mientras card es null
+  }
+  else{
   return (
     <main className="flex h-full px-0">
       <div className="flex w-4/5 h-full">
@@ -73,7 +119,7 @@ export default  function Page() {
           <div className={upArrowBtnClasses}  onClick={handleClickUp}>
             <ArrowUpIcon className="w-8"/><p>Normal</p>
           </div>
-          <Card key={cardsCount++} question={adverse} answer={"Existen dos tipos principales de células: las células procariotas y las células eucariotas. Las células procariotas."} options={["jhduiewewe","dfnuief","fdsneufis","sfesfsef"]} cardType={2} up={up} right={right} down={down} left={left} setEnableArrowBtns={setEnableArrowBtns}/>
+          <Card key={cardsCount++} card={card!} up={up} right={right} down={down} left={left} setEnableArrowBtns={setEnableArrowBtns}/>
           <div className={downArrowBtnClasses} onClick={handleClickDown}>
             <ArrowDownIcon className="w-8"/> <p>Challenging</p>
           </div>
@@ -88,4 +134,5 @@ export default  function Page() {
       </div>
     </main>
   );
+}
 }
