@@ -22,8 +22,6 @@ export default function Card(props: cardProps){
     const [isCorrect, setCorrect] = useState<boolean>(false);
     
 
-    let movementAnimationActive = props.direction != null;
-
     const cardClasses = clsx(
         'flex flex-col justify-between card-dimensions flex-wrap p-8 rounded content-center text-center shadow-lg bg-white',
         {
@@ -31,8 +29,8 @@ export default function Card(props: cardProps){
           'animateDown': props.direction === "down",
           'animateLeft': props.direction === "left",
           'animateRight': props.direction === "right",
-          'correct': isCorrect && isDisabled && !movementAnimationActive,
-          'incorrect': !isCorrect && isDisabled && !movementAnimationActive,
+          'correct': isCorrect && isDisabled,
+          'incorrect': !isCorrect && isDisabled,
         }
       );
     

@@ -19,9 +19,9 @@ export default function Page() {
   const [enableArrowBtns, setEnableArrowBtns] = useState(false);
   const [direction, setDirection] = useState< "up" | "down" | "left" | "right" | null>(null);
 
-  useEffect(() => {
-    setEnableArrowBtns(true);
-  }, []);
+//  useEffect(() => {
+//    setEnableArrowBtns(true);
+//  }, []);
 
   const handleArrowClick = (direction: "up" | "down" | "left" | "right" | null) => {
     if (enableArrowBtns && cardIndex < cards.length - 1) {
