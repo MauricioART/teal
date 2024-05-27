@@ -7,10 +7,8 @@ import { Card as card} from "@/app/lib/definitions";
 
 interface cardProps {
     card: card;
-    up: boolean; 
-    right: boolean; 
-    down: boolean; 
-    left: boolean;
+    direction: "up" | "down" | "left" | "right" | null;
+    enableArrowBtns: boolean;
     setEnableArrowBtns: React.Dispatch<React.SetStateAction<boolean>>;
 
 }
@@ -24,15 +22,15 @@ export default function Card(props: cardProps){
     const [isCorrect, setCorrect] = useState<boolean>(false);
     
 
-    let movementAnimationActive = props.up || props.down || props.left || props.right;
+    let movementAnimationActive = props.direction != null;
 
     const cardClasses = clsx(
         'flex flex-col justify-between card-dimensions flex-wrap p-8 rounded content-center text-center shadow-lg bg-white',
         {
-          'animateUp': props.up, 
-          'animateDown': props.down,
-          'animateLeft': props.left,
-          'animateRight': props.right,
+          'animateUp': props.direction === "up", 
+          'animateDown': props.direction === "down",
+          'animateLeft': props.direction === "left",
+          'animateRight': props.direction === "right",
           'correct': isCorrect && isDisabled && !movementAnimationActive,
           'incorrect': !isCorrect && isDisabled && !movementAnimationActive,
         }
