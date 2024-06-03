@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
-import Button from './Button';
-import RadioButton from './RadioButton';
+import Button from './button';
+import RadioButton from './radio-button';
 import clsx from 'clsx';
 import { Card as card} from "@/app/lib/definitions";
 
