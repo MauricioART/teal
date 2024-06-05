@@ -15,12 +15,12 @@ export default function DeckCollection( props: DeckCollectionProps ){
     let myDecks = props.decks;
 
     return(
-        <div className=" flex flex-wrap place-content-between">
+        <div className=" flex flex-wrap">
 
-            {myDecks.map((deck) => {
+            {myDecks.map((deck, index) => {
                 return(
-                <Link href={`/learn/${deck.deck_id}/create`}>
-                    <Deck deck={deck}/>
+                <Link key={index} href={`/learn/decks/${deck.deck_id}/edit`}>
+                    <Deck key={index} deck={deck}/>
                 </Link>);
             })}
             
