@@ -23,7 +23,7 @@ export default function Card(props: cardProps){
     
 
     const cardClasses = clsx(
-        'flex flex-col justify-between card-dimensions flex-wrap p-8 rounded content-center text-center shadow-lg bg-white',
+        'flex flex-col justify-between card-dimensions flex-wrap p-8 rounded-2xl border border-black content-center text-center shadow-lg bg-white',
         {
           'animateUp': props.direction === "up", 
           'animateDown': props.direction === "down",
@@ -59,7 +59,7 @@ export default function Card(props: cardProps){
                     <div className='mt-16'>
                         {question}
                     </div>
-                    <div className='flex justify-evenly mb-16'>
+                    <div className='flex justify-evenly mb-16 '>
                         <Button key={0} id={0} text="True" color="#98D7C2" handleButtonClick={handleClick} isDisabled={isDisabled}/>
                         <Button key={1} id={1} text="False" color="#98D7C2" handleButtonClick={handleClick} isDisabled={isDisabled}/>
                     </div>
