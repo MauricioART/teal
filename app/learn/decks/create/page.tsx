@@ -1,10 +1,10 @@
-
+import Form from "@/app/ui/deck/create-deck-form";
 
 
 export default function Page(){
     return(
-        <div>
-            <h1>Create deck</h1>
+        <div className=" mx-24 my-10">
+            <Form />
         </div>
     );    
 }
