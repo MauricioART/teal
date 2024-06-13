@@ -24,7 +24,7 @@ export default function DeckCollection( props: DeckCollectionProps ){
                 </Link>);
             })}
             
-            <div className="flex flex-col items-center m-10"> 
+            <div className="flex flex-col items-center m-5"> 
                 <Link href="/learn/decks/create">
                     <AddDeckIcon />
                 </Link>
