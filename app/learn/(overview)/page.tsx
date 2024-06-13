@@ -3,6 +3,7 @@ import { fetchDecks, fetchCards, getUser } from "@/app/lib/data";
 import { Card as cardType, User} from "@/app/lib/definitions";
 import Play from "@/app/ui/learn/play";
 import { CardMode, TimeMode } from "@/app/ui/learn/modes";
+import { auth } from "@/auth";
 
 
 export default async function Page() {
