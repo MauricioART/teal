@@ -1,16 +1,20 @@
 
 export type Deck = {
+    deck_id: number;
     name: string;
-    owner: User;
+    owner_id: number;
     description: string;
-    coverImage: Blob;
-    cards: Card[];
+    coverImage?: Blob;
+    score: number;
+    used: number;
 }
 
 export type User = {
     user_id: number;
-    nickName: string;
+    nickname: string;
     email: string;
+    pictureProfile: string;
+    password: string;
 }
 
 export type Card = {
