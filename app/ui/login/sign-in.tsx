@@ -8,7 +8,7 @@ export function SignIn() {
       action={async () => {
         "use server"
         await signIn("github",{ redirectTo: "/learn" })
-      }} className=" bg-blue-500 m-2 p-2"
+      }} className=" bg-blue-500 m-2 p-2 border border-slate-900"
     >
       <button type="submit">Signin with GitHub</button>
     </form>
@@ -16,7 +16,7 @@ export function SignIn() {
     action={async () => {
       "use server"
       await signIn("google",{ redirectTo: "/learn" })
-    }} className=" bg-gray-200 m-2 p-2"
+    }} className=" bg-gray-200 m-2 p-2 border border-slate-900"
   >
     <button type="submit">Signin with Google</button>
   </form>
