@@ -8,19 +8,29 @@ import { unstable_noStore as noStore } from "next/cache";
 
 export async function fetchDecks(user_id: number){
     try {
-        console.log('Fetching revenue data...');
-        await new Promise((resolve) => setTimeout(resolve, 3000));
-    
+      noStore();
+       // await new Promise((resolve) => setTimeout(resolve, 3000));
         const data = await sql<Deck>`
-        SELECT * FROM Deck WHERE owner_id = "${user_id}"`;
-    
-        console.log('Data fetch completed after 3 seconds.');
-    
+        SELECT * FROM decks WHERE owner_id = ${user_id}`;
         return data.rows;
       } catch (error) {
         console.error('Database Error:', error);
         throw new Error('Failed to fetch revenue data.');
       }
+}
+
+export async function fetchDecksInfo(user_id: number){
+  try{
+    noStore();
+    console.log('Fetching revenue data...');
+    const data = await sql<Deck>`
+    SELECT id, name, coverImage, score, used FROM decks WHERE owner_id = "${user_id}"`;
+
+    return data.rows;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch revenue data.');
+  }
 }
 
 export async function fetchCards(deck_id: number){
@@ -29,7 +39,7 @@ export async function fetchCards(deck_id: number){
         await new Promise((resolve) => setTimeout(resolve,3000));
 
         const data = await sql<Card>`
-        SELECT * FROM Card WHERE deck_id = ${deck_id}`;
+        SELECT * FROM cards WHERE deck_id = ${deck_id}`;
         console.log('Data fetch completed after 3 seconds.');
 
         return data.rows;
@@ -39,10 +49,22 @@ export async function fetchCards(deck_id: number){
     }
 }
 
+export async function fetchNumberOfCards(deck_id: number){
+  try{
+    const data = await sql`
+    SELECT * FROM cards WHERE deck_id = ${deck_id}`;
+    return data.rowCount;
+
+  } catch(error){
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch number of cards');
+  }
+}
+
 export async function getUser(email: string) {
     noStore();
     try {
-      const user = await sql`SELECT * FROM users WHERE email=${email}`;
+      const user = await sql<User>`SELECT * FROM users WHERE email = ${email}`;
       return user.rows[0] as User;
     } catch (error) {
       console.error('Failed to fetch user:', error);
