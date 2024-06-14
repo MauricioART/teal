@@ -81,10 +81,8 @@ export async function createUser(name: string, mail: string, imageURL: string){
     email: mail,
     pictureProfile: imageURL
   });
-  const result = await sql`SELECT * FROM users WHERE email = ${email}`;
-  if (result.rowCount == 0){
-    const newUser = await sql`INSERT INTO users (nickname, email, profile_picture) 
-                            VALUES (${nickname},${email},${pictureProfile})`;
-    console.log(newUser.rows);
-  }
+  const newUserId = await sql`INSERT INTO users (nickname, email, profile_picture) 
+                    VALUES (${nickname},${email},${pictureProfile}) RETURNING user_id`;
+  return newUserId.rows[0];
 }
+
