@@ -4,6 +4,7 @@ import Google from "next-auth/providers/google"
 import { JWT } from "next-auth/jwt"
 import { createUser } from "./app/lib/actions";
 import { use } from "react";
+import { getUser } from "./app/lib/data";
 
 
 interface CustomToken extends JWT {
@@ -42,7 +43,14 @@ const authConfig: NextAuthConfig = {
         async jwt({ token, user }): Promise<CustomToken> {
           if (user) { // User is available during sign-in
             token.id = user.id as string;
-            await createUser(user.name as string, user.email as string, user.image as string);
+            const fetchedUser = await getUser(user.email as string);
+            if (fetchedUser == null){
+              const newUserId = await createUser(user.name as string, user.email as string, user.image as string);  
+              token.id = newUserId;
+            }
+            else
+              token.id = fetchedUser.user_id;
+
           }
           return token;
         },
