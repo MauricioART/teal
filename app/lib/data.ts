@@ -6,7 +6,7 @@ import {
 } from "@/app/lib/definitions";
 import { unstable_noStore as noStore } from "next/cache";
 
-export async function fetchDecks(user_id: number){
+export async function fetchDecks(user_id: string){
     try {
       noStore();
        // await new Promise((resolve) => setTimeout(resolve, 3000));
@@ -19,7 +19,7 @@ export async function fetchDecks(user_id: number){
       }
 }
 
-export async function fetchDecksInfo(user_id: number){
+export async function fetchDecksInfo(user_id: string){
   try{
     noStore();
     console.log('Fetching revenue data...');
@@ -33,7 +33,7 @@ export async function fetchDecksInfo(user_id: number){
   }
 }
 
-export async function fetchCards(deck_id: number){
+export async function fetchCards(deck_id: string){
     try{
         console.log('Fetching cards...');
         await new Promise((resolve) => setTimeout(resolve,3000));
@@ -49,7 +49,7 @@ export async function fetchCards(deck_id: number){
     }
 }
 
-export async function fetchNumberOfCards(deck_id: number){
+export async function fetchNumberOfCards(deck_id: string){
   try{
     const data = await sql`
     SELECT * FROM cards WHERE deck_id = ${deck_id}`;

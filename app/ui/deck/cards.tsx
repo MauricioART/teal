@@ -4,7 +4,7 @@ import AddCardIcon from "./add-card-icon";
 import CardIcon from "./add-card-icon";
 
 interface cardsProps{
-    deck_id: number;
+    deck_id: string;
     cards: Card[];
 }
 
