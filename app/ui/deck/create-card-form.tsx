@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { createCard } from "@/app/lib/actions";
 
-export default function Form (){
+export default function NewCardForm (){
     //const [cardType, setType] = useState<0 | 1 | 2>(0);
 
     return(
