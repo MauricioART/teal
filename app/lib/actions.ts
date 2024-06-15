@@ -9,7 +9,7 @@ import { useSearchParams, usePathname, useRouter } from 'next/navigation';
 
 const DeckFormSchema = z.object({
     name: z.string(),
-    description: z.string()
+    description: z.string(),
   });
 
 const UserFormSchema = z.object({
@@ -35,8 +35,8 @@ export async function createCard(){
 
 }
 
-export async function createDeck(formData : FormData){
-    const { name, description} = CreateDeck.parse({
+export async function createDeck(formData : FormData, owner_id: string){
+    const { name, description, } = CreateDeck.parse({
         name: formData.get('name'),
         description: formData.get('description'),
       });
@@ -45,8 +45,9 @@ export async function createDeck(formData : FormData){
         // Convert File to Blob (although File is already a Blob)
         const imageBlob = new Blob([image], { type: "file" });
         console.log(image);
-        await sql`INSERT INTO decks (name, owner_id, description, score, used)
-        VALUES (${name},${1},${description},${0},${0})`;
+        const response = await sql`INSERT INTO decks (name, owner_id, description, score, used)
+        VALUES (${name},${owner_id},${description},${0},${0})`;
+        console.log(response);
       }
 
 }
@@ -81,8 +82,8 @@ export async function createUser(name: string, mail: string, imageURL: string){
     email: mail,
     pictureProfile: imageURL
   });
-  const newUserId = await sql`INSERT INTO users (nickname, email, profile_picture) 
+  const newUserId = await sql`INSERT INTO users (nickname, email, profile_picture_url) 
                     VALUES (${nickname},${email},${pictureProfile}) RETURNING user_id`;
-  return newUserId.rows[0];
+  return newUserId.rows[0].user_id;
 }
 
