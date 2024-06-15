@@ -1,14 +1,20 @@
 import { Deck } from "@/app/lib/definitions";
 import DeckCollection from "@/app/ui/deck/deck-collection";
 import { fetchDecks } from "@/app/lib/data";
+import { auth } from "@/auth";
 
-interface pageProps{
-    user_id: number;
-}
 
-export default async function Page (props : pageProps){
+export default async function Page (){
+    const session = await auth()
+    
+    if (!session?.user) return null;
+    
+    let myDecks: Deck[] = [];
 
-    let myDecks: Deck[] = await fetchDecks(1);
+    if (session.user.id != undefined){
+        console.log(session.user.id);
+        myDecks = await fetchDecks(session.user.id);
+    }
 
     return (
         <div className=" mx-10">
