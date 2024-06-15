@@ -5,16 +5,20 @@ import Play from "@/app/ui/learn/play";
 import { CardMode, TimeMode } from "@/app/ui/learn/modes";
 import { auth } from "@/auth";
 
-
 export default async function Page() {
-  const user: User = await getUser("artuaguila@gmail.com");
-  
+
+  const session = await auth()
+ 
+  if (!session?.user) return null;
+
+  console.log(session.user.id);
+
   const cards: cardType[] = [
-    { question: "What is the capital of France?", answer: 0, options: ["Paris", "Berlin", "Rome", "Madrid"], cardType: 1, priority: 1 },
-    { question: "Is the earth round?", answer: 0, options: ["True", "False"], cardType: 0, priority: 3 },
-    { question: "What is 2 + 2?", answer: 1, options: ["3", "4", "5", "6"], cardType: 1, priority: 2 },
-    { question: "What is the chemical symbol for water?", answer: 0, options: ["H2O", "CO2", "O2", "H2"], cardType: 1, priority: 4 },
-    { question: "Solve the equation: x + 3 = 5. What is x?", answer: 1, options: ["1", "2", "3", "4"], cardType: 1, priority: 5 }
+    { question: "What is the capital of France?", answer: 0, options: ["Paris", "Berlin", "Rome", "Madrid"], cardType: 1},
+    { question: "Is the earth round?", answer: 0, options: ["True", "False"], cardType: 0  },
+    { question: "What is 2 + 2?", answer: 1, options: ["3", "4", "5", "6"], cardType: 1},
+    { question: "What is the chemical symbol for water?", answer: 0, options: ["H2O", "CO2", "O2", "H2"], cardType: 1 },
+    { question: "Solve the equation: x + 3 = 5. What is x?", answer: 1, options: ["1", "2", "3", "4"], cardType: 1}
   ];
   if (cards.length > 0){
     return(
