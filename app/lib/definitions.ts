@@ -23,5 +23,5 @@ export type Card = {
     question: string;
     answer: string | number;
     options?: string[];
-    cardType: 0 | 1 | 2;
+    cardType: number | null;
 }
