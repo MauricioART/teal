@@ -1,4 +1,4 @@
-import Cards from '@/app/ui/deck/cards';
+import CardCollection from '@/app/ui/deck/card-collection';
 import { fetchCards } from '@/app/lib/data';
 
  
@@ -7,7 +7,7 @@ export default async function Page({ params }: { params: { deckId: string } }) {
     const cards= await fetchCards(deckId);
   return (
     <main>
-      <Cards cards={cards} deck_id={deckId}/>
+      <CardCollection cards={cards} deck_id={deckId} add={true}/>
     </main>
   );
 }

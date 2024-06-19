@@ -4,13 +4,14 @@ import AddCardIcon from "./add-card-icon";
 import CardIcon from "./add-card-icon";
 
 interface cardsProps{
-    deck_id: string;
+    add: boolean;
+    deck_id: string | null;
     cards: Card[];
 }
 
-export default function Cards(props: cardsProps){
+export default function CardCollection(props: cardsProps){
     let cards = props.cards;
-
+    
     return(
         <div className=" flex flex-wrap">
 
@@ -20,12 +21,12 @@ export default function Cards(props: cardsProps){
                     <CardIcon />
                 </Link>);
             })}
-            
+            {  props.add &&
             <div className="flex flex-col items-center m-10"> 
                 <Link href={`/learn/decks/${props.deck_id}/new`}>
                     <AddCardIcon />
                 </Link>
-            </div>
+            </div>}
             
         </div>
     );
