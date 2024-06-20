@@ -1,5 +1,5 @@
 "use client";
-import { useState, Fragment, useEffect } from 'react';
+import { useState, Fragment } from 'react';
 import Box from '@mui/material/Box';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
@@ -8,43 +8,33 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import NewDeckForm from './create-deck-form';
 import NewCardForm from './create-card-form';
-
+import { Card } from '@/app/lib/definitions';
+import CardCollection from './card-collection';
+import { createCard, createDeck } from '@/app/lib/actions';
+import { redirect } from 'next/navigation';
+import { revalidatePath } from 'next/cache';
 
 const steps = ['Deck Info', 'Create cards', 'Submit'];
 
-interface FormData {
+interface DeckFormData {
   name: string;
   description: string;
   image: File | null;
 }
 
-interface Props{
-    client_id: string,
-};
+interface Props {
+  user_id: string;
+}
 
 export default function CreateDeckStepper(props: Props) {
   const [activeStep, setActiveStep] = useState(0);
   const [skipped, setSkipped] = useState(new Set<number>());
-  const [content, setContent] = useState<React.ReactNode>(null);
-  const [formData, setFormData] = useState<FormData>({
+  const [formData, setFormData] = useState<DeckFormData>({
     name: "",
     description: "",
     image: null,
   });
-
-  useEffect(() => {
-    switch (activeStep) {
-      case 0:
-        setContent(<NewDeckForm owner_id={props.client_id} formData={formData} setFormData={setFormData} />);
-        break;
-      case 1:
-        setContent(<NewCardForm />);
-        break;
-      case 2:
-      default:
-        setContent(null);
-    }
-  }, [activeStep, props.client_id]);
+  const [deck, setDeck] = useState<Card[]>([]);
 
   const isStepOptional = (step: number) => {
     return step === 1;
@@ -60,7 +50,6 @@ export default function CreateDeckStepper(props: Props) {
       newSkipped = new Set(newSkipped.values());
       newSkipped.delete(activeStep);
     }
-
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
     setSkipped(newSkipped);
   };
@@ -71,8 +60,6 @@ export default function CreateDeckStepper(props: Props) {
 
   const handleSkip = () => {
     if (!isStepOptional(activeStep)) {
-      // You probably want to guard against something like this,
-      // it should never occur unless someone's actively trying to break something.
       throw new Error("You can't skip a step that isn't optional.");
     }
 
@@ -84,75 +71,99 @@ export default function CreateDeckStepper(props: Props) {
     });
   };
 
-  const handleReset = () => {
+
+  const handleSubmit = async () => {
+    const deckFormData = new FormData;
+    deckFormData.append('name',formData.name);
+    deckFormData.append('description',formData.description);
+    deckFormData.append('owner_id',props.user_id);
+    const deckId = await createDeck(deckFormData);
+    if (deckId){
+      deck.map(async (card, index)=>{
+        await createCard(deckId,card);
+      });
+      
+    }
     setActiveStep(0);
+    setDeck([]);
+    setFormData({
+      name: "",
+      description: "",
+      image: null,
+    });
   };
- 
 
   return (
     <div className='flex flex-col items-center m-2 p-2 w-full h-full justify-around'>
-      <div className=' w-full mb-16'>{content}
-
+      <div className=' w-full mb-16'>
+        {activeStep === 0 && <NewDeckForm owner_id={props.user_id} formData={formData} setFormData={setFormData} />}
+        {activeStep === 1 && <NewCardForm deck={deck} setDeck={setDeck}/>}
+        {activeStep === 2 && <CardCollection add={false} cards={deck} deck_id={null}/> }
       </div>
       <div className='relative w-full'>
-      <div className='fixed w-4/5 bottom-5'>
+        <div className='fixed w-4/5 bottom-5'>
           <Stepper activeStep={activeStep}>
-              {steps.map((label, index) => {
+            {steps.map((label, index) => {
               const stepProps: { completed?: boolean } = {};
               const labelProps: {
-                  optional?: React.ReactNode;
+                optional?: React.ReactNode;
               } = {};
               if (isStepOptional(index)) {
-                  labelProps.optional = (
+                labelProps.optional = (
                   <Typography variant="caption">Optional</Typography>
-                  );
+                );
               }
               if (isStepSkipped(index)) {
-                  stepProps.completed = false;
+                stepProps.completed = false;
               }
               return (
-                  <Step key={label} {...stepProps}>
+                <Step key={label} {...stepProps}>
                   <StepLabel {...labelProps}>{label}</StepLabel>
-                  </Step>
+                </Step>
               );
-              })}
+            })}
           </Stepper>
           {activeStep === steps.length ? (
-              <Fragment>
-              <Typography sx={{ mt: 2, mb: 1 }}>
-                  All steps completed - you&apos;re finished
+            <Fragment>
+              {/*<Typography sx={{ mt: 2, mb: 1 }}>
+                All steps completed - you&apos;re finished
               </Typography>
               <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-                  <Box sx={{ flex: '1 1 auto' }} />
-                  <Button onClick={handleReset}>Reset</Button>
-              </Box>
-              </Fragment>
+                <Box sx={{ flex: '1 1 auto' }} />
+                <Button onClick={handleReset}>Reset</Button>
+              </Box>*/}
+              
+            </Fragment>
           ) : (
-              <Fragment>
-              <Typography sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1}</Typography>
+            <Fragment>
               <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-                  <Button
+                <Button
                   color="inherit"
                   disabled={activeStep === 0}
                   onClick={handleBack}
                   sx={{ mr: 1 }}
-                  >
+                >
                   Back
-                  </Button>
-                  <Box sx={{ flex: '1 1 auto' }} />
-                  {isStepOptional(activeStep) && (
+                </Button>
+                <Box sx={{ flex: '1 1 auto' }} />
+                {isStepOptional(activeStep) && (
                   <Button color="inherit" onClick={handleSkip} sx={{ mr: 1 }}>
-                      Skip
+                    Skip
                   </Button>
-                  )}
-                  <Button onClick={handleNext}>
+                )}
+                <Button onClick={()=>{
+                  if (activeStep === steps.length - 1) 
+                    handleSubmit();
+                  else
+                    handleNext();
+                  }}>
                   {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-                  </Button>
+                </Button>
               </Box>
-              </Fragment>
+            </Fragment>
           )}
-      
-      </div></div>
+        </div>
+      </div>
     </div>
   );
 }
