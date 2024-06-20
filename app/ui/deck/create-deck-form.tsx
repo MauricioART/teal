@@ -5,6 +5,7 @@ import DeckIcon from "./deck-icon";
 import { useState, FormEvent, ChangeEvent } from 'react';
 import Link from "next/link";
 
+
 interface FormData {
   name: string;
   description: string;
@@ -19,14 +20,8 @@ interface FormProps {
 
 // Componente de formulario
 export default function NewDeckForm(props: FormProps) {
-  //const formData = props.formData;
-  //const setFormData = props.setFormData;
-  const [formData, setFormData] = useState<FormData>({
-    name: "",
-    description: "",
-    image: null,
-  });
-
+  const formData = props.formData;
+  const setFormData = props.setFormData;
   // Manejar el cambio en los campos del formulario
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
@@ -54,13 +49,14 @@ export default function NewDeckForm(props: FormProps) {
     const formDataToSend = new FormData();
     formDataToSend.append('name', name);
     formDataToSend.append('description', description);
+    formDataToSend.append('owner_id', props.owner_id);
     if (image) {
       formDataToSend.append('image', image);
     }
 
     // Llamar a la función createDeck con los datos del formulario y owner_id como argumento
     console.log(props.owner_id);
-    await createDeck(formDataToSend, props.owner_id);
+    await createDeck(formDataToSend);
   };
 
   return (
@@ -115,17 +111,6 @@ export default function NewDeckForm(props: FormProps) {
           />
         </div>
 
-        <div className="flex self-end">
-          <Link
-            href="/learn/decks"
-            className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200"
-          >
-            Cancel
-          </Link>
-          <Button type="submit" className="flex self-center">
-            Submit
-          </Button>
-        </div>
       </div>
     </form>
   );
