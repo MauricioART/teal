@@ -18,8 +18,6 @@ export type User = {
 }
 
 export type Card = {
-//    card_id: number;
-//    deck_id: string;
     question: string;
     answer: string | number;
     options?: string[];
