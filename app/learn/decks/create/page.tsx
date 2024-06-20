@@ -13,7 +13,7 @@ export default async function Page(){
     if (user_id != undefined){
         return(
             <div className=" ">
-            <CreateDeckStepper client_id={user_id}/>
+            <CreateDeckStepper user_id={user_id}/>
             </div>
         );    
     }
