@@ -1,3 +1,4 @@
+"use client";
 import { Fragment, useState } from "react";
 import { createCard } from "@/app/lib/actions";
 import Tabs from '@mui/material/Tabs';
@@ -7,162 +8,320 @@ import Image from "next/image";
 import Button from "../button";
 import { Card } from "@/app/lib/definitions";
 
-
 interface TabPanelProps {
-    children?: React.ReactNode;
-    index: number;
-    value: number;
-  }
-  function CustomTabPanel(props: TabPanelProps) {
-    const { children, value, index, ...other } = props;
-  
-    return (
-      <div
-        role="tabpanel"
-        hidden={value !== index}
-        id={`simple-tabpanel-${index}`}
-        aria-labelledby={`simple-tab-${index}`}
-        {...other}
-      >
-        {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
-      </div>
-    );
-  }
-
-function a11yProps(index: number) {
-    return {
-    id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
-    };
+  children?: React.ReactNode;
+  index: number;
+  value: number;
 }
 
-function CardForm(cardType: number, card: Card, setCard: React.Dispatch<React.SetStateAction<Card>>){
-  const [options, setOptions] = useState<string[]>(["","","",""]);
+function CustomTabPanel(props: TabPanelProps) {
+  const { children, value, index, ...other } = props;
 
-  return(
-    <Box sx={{ height: '100%',  width: '100%'}}>
-    { cardType == 0 && (
-      <div className="flex justify-around items-center h-48 p-10">
-        <div>
-        <textarea
-                id="question"
-                name="question"
-                placeholder="QUESTION"
-                rows={4}
-                cols={50}
-                className="focus:outline-none focus:border-none p-2"
-                value={card.question}
-                onChange={(event)=>{setCard({...card,[event.target.name]: event.target.value})}}
-                required
-              ></textarea>
-        </div>
-        <div className="flex flex-col content-start">
-          <div>
-            <input type="radio" id="true" name="answer" value="True" 
-                onChange={(event) => {setCard({...card, answer: 0})}}
-            />
-            <label htmlFor="true">True</label>
-          </div>
-          <div>
-            <input type="radio" id="false" name="answer" value="False" 
-                onChange={(event) => {setCard({...card, answer: 1})}}
-            />
-            <label htmlFor="false">False</label>
-          </div>
-          
-        </div>
-      </div>
-    )}
-    { cardType == 1 && (
-      <div className="flex justify-around items-center h-48 p-10">
-        <div>
-        <textarea
-                id="question"
-                name="question"
-                placeholder="QUESTION"
-                rows={4}
-                cols={50}
-                className="focus:outline-none focus:border-none p-2"
-                value={card.question}
-                onChange={(event)=>{setCard({...card,[event.target.name]: event.target.value})}}
-                required
-              ></textarea>
-        </div>
-        <div className="flex flex-col content-around">
-          <input type="text" placeholder="CORRECT ANSWER" value={options[0]} 
-            onChange={()=>{
-              setOptions(options);
-              setCard({...card, options: options});
-          }}/>
-          
-          <input type="text" placeholder="INCORRECT ANSWER" value={options[1]}  onChange={()=>{
-              setOptions(options);
-              setCard({...card, options: options});
-          }}/>
-          
-          <input type="text" placeholder="INCORRECT ANSWER" value={options[2]}  onChange={()=>{
-              setOptions(options);
-              setCard({...card, options: options});
-          }}/>
-          
-          <input type="text" placeholder="INCORRECT ANSWER" value={options[3]}  onChange={()=>{
-              setOptions(options);
-              setCard({...card, options: options});
-          }}/>
-        </div>
-      </div>
-    )}
-    { cardType == 2 && (
-    <div className="flex justify-around items-center h-48 p-10">
-      <textarea
-                id="question"
-                name="question"
-                placeholder="QUESTION"
-                rows={4}
-                cols={50}
-                className="focus:outline-none focus:border-none p-2"
-                value={card.question}
-                onChange={(event)=>{setCard({...card,[event.target.name]: event.target.value})}}
-                required
-              ></textarea>
-      <textarea
-                id="answer"
-                name="answer"
-                rows={4}
-                placeholder="ANSWER"
-                cols={50}
-                className="focus:outline-none focus:border-none p-2"
-                value={card.answer}
-                onChange={(event)=>{setCard({...card,[event.target.name]: event.target.value})}}
-                required
-              ></textarea>
-    </div>)}
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
+    </div>
+  );
+}
 
+function a11yProps(index: number) {
+  return {
+    id: `simple-tab-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`,
+  };
+}
+
+function CardForm({ cardType, card, setCard }: { cardType: number, card: Card, setCard: React.Dispatch<React.SetStateAction<Card>> }) {
+
+  const handleOptionChange = (index: number, value: string) => {
+    if (card.options != undefined){
+    const newOptions = [...card.options];
+    newOptions[index] = value;
+    setCard({ ...card, options: newOptions });
+  }
+  };
+
+  return (
+    <Box sx={{ height: '100%', width: '100%' }}>
+      {cardType === 0 && (
+        <div className="flex justify-around items-center h-48 p-10">
+          <textarea
+            id="question"
+            name="question"
+            placeholder="QUESTION"
+            rows={4}
+            cols={50}
+            className="focus:outline-none focus:border-none p-2"
+            value={card.question}
+            onChange={(event) => setCard({ ...card, question: event.target.value })}
+            required
+          />
+          <div className="flex flex-col">
+            <label>
+              <input type="radio" name="answer" value="True"
+                onChange={() => setCard({ ...card, answer: 0 })}
+              />
+              True
+            </label>
+            <label>
+              <input type="radio" name="answer" value="False"
+                onChange={() => setCard({ ...card, answer: 1 })}
+              />
+              False
+            </label>
+          </div>
+        </div>
+      )}
+      {cardType === 1 && (
+        <div className="flex justify-around items-center h-48 p-10">
+          <textarea
+            id="question"
+            name="question"
+            placeholder="QUESTION"
+            rows={4}
+            cols={50}
+            className="focus:outline-none focus:border-none p-2"
+            value={card.question}
+            onChange={(event) => setCard({ ...card, question: event.target.value })}
+            required
+          />
+          <div className="flex flex-col">
+            {card.options && card.options.map((option, index) => (
+              <input
+                key={index}
+                type="text"
+                placeholder={index === 0 ? "CORRECT ANSWER" : "INCORRECT ANSWER"}
+                value={option}
+                onChange={(e) => handleOptionChange(index, e.target.value)}
+              />
+            ))}
+          </div>
+        </div>
+      )}
+      {cardType === 2 && (
+        <div className="flex justify-around items-center h-48 p-10">
+          <textarea
+            id="question"
+            name="question"
+            placeholder="QUESTION"
+            rows={4}
+            cols={50}
+            className="focus:outline-none focus:border-none p-2"
+            value={card.question}
+            onChange={(event) => setCard({ ...card, question: event.target.value })}
+            required
+          />
+          <textarea
+            id="answer"
+            name="answer"
+            rows={4}
+            placeholder="ANSWER"
+            cols={50}
+            className="focus:outline-none focus:border-none p-2"
+            value={card.answer}
+            onChange={(event) => setCard({ ...card, answer: event.target.value })}
+            required
+          />
+        </div>
+      )}
     </Box>
   );
 }
 
-export default function NewCardForm (){
-  
+const BatchCreationTab: React.FC<{ onAdd: (input: string) => void }> = ({ onAdd }) => {
+  const [input, setInput] = useState('');
+
+  const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setInput(event.target.value);
+  };
+
+  const handleAdd = () => {
+    onAdd(input);
+    setInput('');
+  };
+
+  return (
+    <div className="flex justify-around items-center h-full p-10 ">
+      <textarea
+        id="batch"
+        name="batch"
+        placeholder="Example:\n 1;What does ANSI stand for?;American National Standards Institute"
+        rows={10}
+        cols={90}
+        className="focus:outline-none focus:border-none p-4"
+        value={input}
+        onChange={handleChange}
+        required
+      ></textarea>
+      <Button onClick={handleAdd}>Add</Button>
+    </div>
+  );
+};
+
+
+export default function NewCardForm({deck, setDeck}:{deck?:Card[], setDeck?:React.Dispatch<React.SetStateAction<Card[]>>}) {
   const width = 190;
-  let cards: Card[] = [];
   const [value, setValue] = useState(0);
-  const [cardClass, setCardClass] = useState<number| null>(null);
-  const [card,setCard] = useState<Card>({
+  const [cardClass, setCardClass] = useState<number | null>(null);
+  const [card, setCard] = useState<Card>({
     question: "",
     answer: "",
-    options: [],
-    cardType: null,
+    options: ["","","",""],
+    cardType: 0,
   });
-
-
+  const [localDeck, setLocalDeck] = useState<Card[]>(deck || []);
+  
+  
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
 
   const handleCardType = (event: React.SyntheticEvent) => {
-    setCardClass(Number(event.currentTarget.id));
-    setCard({...card, cardType: Number(event.currentTarget.id) })
+    const selectedCardType = Number(event.currentTarget.id);
+    setCardClass(selectedCardType);
+    setCard({ ...card, cardType: selectedCardType });
+  };
+
+  const addCard = () => {
+    const deckBuffer = localDeck;
+    switch(card.cardType){
+      case 0:
+        if(card.question != ""){
+          if(card.answer == 0 || card.answer == 1){
+            deckBuffer.push({
+              cardType: card.cardType, 
+              question: card.question,
+              answer: card.answer
+            });
+            if (setDeck) {
+              setDeck(deckBuffer);
+            } else {
+              setLocalDeck(deckBuffer);
+            }
+          }else {
+            throw new Error("Select true or false");
+          }
+        } else{
+          throw new Error("Question field empty!")
+        }
+        break;
+      case 1:
+        if(card.question != ""){
+          if(card.options != undefined && card.options.length > 1){
+            deckBuffer.push({
+              cardType: card.cardType, 
+              question: card.question,
+              answer: 0,
+              options: card.options
+            });
+            if (setDeck) {
+              setDeck(deckBuffer);
+            } else {
+              setLocalDeck(deckBuffer);
+            }
+          } else{
+            throw new Error("You need at least 2 answer options.");
+          }
+        }else{
+          throw new Error("Question field empty!");
+        }
+        
+        break;
+      case 2:
+        if(card.question != ""){
+          if(card.answer != ""){
+            deckBuffer.push({
+              cardType: card.cardType, 
+              question: card.question,
+              answer: card.answer,
+            });
+            if (setDeck) {
+              setDeck(deckBuffer);
+            } else {
+              setLocalDeck(deckBuffer);
+            }
+          }else {
+            throw new Error("Answer field empty!");
+          }
+        }else{
+          throw new Error("Question field empty!");
+        }
+        break;
+      default:
+        throw new Error("CardType error");
+        break;
+
+    }
+    setCard({
+      question: "",
+      answer: "",
+      options: ["","","",""],
+      cardType: 0,
+    });
+
+  };
+  const handleBatchAdd = (input: string) => {
+    const deckBuffer = localDeck;
+    let errorLines : number[] = [];
+    console.log("Batch Input:", input);
+    const cardsStr = input.split("\n");
+    cardsStr.map((cardStr,index)=>{
+      const tokens = cardStr.split("|");
+      switch(tokens[0]){
+        case "0":
+          if (tokens.length == 3){
+            deckBuffer.push({
+              cardType: 0, 
+              question: tokens[1],
+              answer: tokens[2],
+            });
+          }
+          else{
+            errorLines.push(index);
+          }
+          break;
+        case "1": 
+          if (tokens.length >= 5){
+            deckBuffer.push({
+              cardType: 1, 
+              question: tokens[1],
+              answer: 0,
+              options: tokens.filter((_,index)=>index >= 2),
+            });
+          }
+          else{
+            errorLines.push(index);
+          }
+          break;
+        case "2":
+          if (tokens.length == 3){
+            deckBuffer.push({
+              cardType: 2, 
+              question: tokens[1],
+              answer: tokens[2],
+            });
+          }
+          else{
+            errorLines.push(index);
+          }
+          break;
+        default:
+          errorLines.push(index);
+          break;      
+      }
+    });
+    if (setDeck) {
+      setDeck(deckBuffer);
+    } else {
+      setLocalDeck(deckBuffer);
+    }
+    console.log(deck);
   };
 
   return (
@@ -174,58 +333,51 @@ export default function NewCardForm (){
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
-      <div className="flex justify-evenly items-center h-5/6">
-        <Fragment>
-            <Image 
-                key={0}
-                id="0"
-                src="/icons/True-False-Card.svg"
-                alt="True-False Card"
-                width={width}
-                height={1.5 * width}
-                onClick={handleCardType}
-            />
-            <Image 
-                key={1}
-                id="1"
-                src="/icons/4-Optional-Card.svg"
-                alt="4 Optional Card"
-                width={width}
-                height={1.5 * width}
-                onClick={handleCardType}
-            />
-            <Image
-                key={2} 
-                id="2"
-                src="/icons/Reveal-Card.svg"
-                alt="Reveal Card"
-                width={width}
-                height={1.5 * width}
-                onClick={handleCardType}
-            /></Fragment>
-      </div>
-      { cardClass != null && ( 
-        <Fragment>
-        <div> {CardForm(cardClass, card, setCard) }
+        <div className="flex justify-evenly items-center h-5/6">
+          <Image
+            key={0}
+            id="0"
+            src="/icons/True-False-Card.svg"
+            alt="True-False Card"
+            width={width}
+            height={1.5 * width}
+            onClick={handleCardType}
+          />
+          <Image
+            key={1}
+            id="1"
+            src="/icons/4-Optional-Card.svg"
+            alt="4 Optional Card"
+            width={width}
+            height={1.5 * width}
+            onClick={handleCardType}
+          />
+          <Image
+            key={2}
+            id="2"
+            src="/icons/Reveal-Card.svg"
+            alt="Reveal Card"
+            width={width}
+            height={1.5 * width}
+            onClick={handleCardType}
+          />
         </div>
-      <div>
-        <Button> Add </Button>
-      </div></Fragment>)} 
+        {cardClass != null && (
+          <Fragment>
+            <CardForm cardType={cardClass} card={card} setCard={setCard} />
+            <Button onClick={()=>{
+              try{
+                addCard();
+
+              }catch(Error){
+                console.log(Error);
+              }
+            }}> Add </Button>
+          </Fragment>
+        )}
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        <div className="flex justify-around items-center h-full p-10 ">
-        <textarea
-                id="question"
-                name="batch"
-                placeholder="Example:
-                              1,What does ANSI stand for?, American National Security Intelligence"
-                rows={10}
-                cols={90}
-                className="focus:outline-none focus:border-none p-4"
-                required
-              ></textarea>
-        <Button onClick={()=>{console.log(card)}}> Add</Button>
-        </div>
+          <BatchCreationTab  onAdd={handleBatchAdd}/>
       </CustomTabPanel>
     </Box>
   );
