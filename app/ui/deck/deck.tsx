@@ -6,7 +6,7 @@ interface deckProps{
     deck : deckType;
 }
 
-export default async function Deck(props: deckProps){
+export default  function Deck(props: deckProps){
     const deck = props.deck;
     if (deck.coverImage != null){
         const url = URL.createObjectURL(deck.coverImage);
@@ -30,6 +30,5 @@ export default async function Deck(props: deckProps){
             </div>
         );
     }
-    //const numberOfCards = await fetchNumberOfCards(deck.deck_id);
    
 }
