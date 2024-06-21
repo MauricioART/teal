@@ -66,6 +66,14 @@ export async function createCard(deckId: string, card: Card){
   redirect('/learn/decks');
 }
 
+export async function deleteCard(cardId: number, deckId: string){
+  const {card_id, deck_id} = CardFormSchema.parse({
+    card_id: cardId,
+    deck_id: deckId
+  });
+  const response = await sql`DELETE FROM cards WHERE card_id = ${card_id} AND deck_id = ${deck_id}`;
+}
+
 export async function updateCard(card : Card){
   const {card_id, deck_id, question, answer, options, card_type} = CardFormSchema.parse({
     deck_id : card.deck_id,
