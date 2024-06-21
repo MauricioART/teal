@@ -1,5 +1,5 @@
 "use client";
-import { Fragment, useState, useRef } from "react";
+import { Fragment, useState } from "react";
 import { Card } from "@/app/lib/definitions";
 import Link from "next/link";
 import AddCardIcon from "./add-card-icon";
@@ -23,7 +23,7 @@ export default function CardCollection(props: cardsProps){
     const [deck, setDeck] = useState<Card[]>(props.cards);
     const [open, setOpen] = useState(false);
     const [currentCard, setCurrentCard] = useState<Card|null>(null);
-    const formRef = useRef<HTMLFormElement>(null);
+    const [currentIndex, setCurrentIndex] = useState<number|null>(null);
     
     function handleClick(card: Card ){
         setCurrentCard(card);
@@ -35,8 +35,11 @@ export default function CardCollection(props: cardsProps){
     };
 
     const  handleButtonClick = async ( ) => {
-        if (currentCard != null){
+        if (currentCard != null && currentIndex != null){
             const response = await updateCard(currentCard);
+            let deckBuffer = deck;
+            deckBuffer[currentIndex] = currentCard;
+            setDeck(deckBuffer);
     }
         setOpen(false);
     };
@@ -53,7 +56,10 @@ export default function CardCollection(props: cardsProps){
         <div className=" flex flex-wrap">
 
             {deck.map((card, index) => {
-                return (<button key={index} onClick={()=>{handleClick(card)}}><CardIcon key={index} id={`${index}`}/></button>);
+                return (<button key={index} onClick={()=>{
+                    handleClick(card);
+                    setCurrentIndex(index);
+                }}><CardIcon key={index} id={`${index}`}/></button>);
             })}
 
             {  props.add &&
