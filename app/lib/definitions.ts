@@ -18,8 +18,10 @@ export type User = {
 }
 
 export type Card = {
+    card_id: string | null;
+    deck_id: string | null;
     question: string;
     answer: string | number;
     options?: string[];
-    cardType: number | null;
+    card_type: number | null;
 }

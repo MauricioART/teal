@@ -52,7 +52,7 @@ export default function Card(props: cardProps){
         props.setEnableArrowBtns(true);
     }
 
-    switch (props.card.cardType){
+    switch (props.card.card_type){
         case 0:
             return (
                 <div className={cardClasses}>

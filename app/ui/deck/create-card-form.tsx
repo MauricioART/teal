@@ -170,10 +170,12 @@ export default function NewCardForm({deck, setDeck}:{deck?:Card[], setDeck?:Reac
   const [value, setValue] = useState(0);
   const [cardClass, setCardClass] = useState<number | null>(null);
   const [card, setCard] = useState<Card>({
+    card_id: null,
+    deck_id: null,
     question: "",
     answer: "",
     options: ["","","",""],
-    cardType: 0,
+    card_type: 0,
   });
   const [localDeck, setLocalDeck] = useState<Card[]>(deck || []);
   
@@ -185,17 +187,19 @@ export default function NewCardForm({deck, setDeck}:{deck?:Card[], setDeck?:Reac
   const handleCardType = (event: React.SyntheticEvent) => {
     const selectedCardType = Number(event.currentTarget.id);
     setCardClass(selectedCardType);
-    setCard({ ...card, cardType: selectedCardType });
+    setCard({ ...card, card_type: selectedCardType });
   };
 
   const addCard = () => {
     const deckBuffer = localDeck;
-    switch(card.cardType){
+    switch(card.card_type){
       case 0:
         if(card.question != ""){
           if(card.answer == 0 || card.answer == 1){
             deckBuffer.push({
-              cardType: card.cardType, 
+              card_id: null,
+              deck_id: null,
+              card_type: card.card_type, 
               question: card.question,
               answer: card.answer
             });
@@ -215,7 +219,9 @@ export default function NewCardForm({deck, setDeck}:{deck?:Card[], setDeck?:Reac
         if(card.question != ""){
           if(card.options != undefined && card.options.length > 1){
             deckBuffer.push({
-              cardType: card.cardType, 
+              card_id: null,
+              deck_id: null,
+              card_type: card.card_type, 
               question: card.question,
               answer: 0,
               options: card.options
@@ -237,7 +243,9 @@ export default function NewCardForm({deck, setDeck}:{deck?:Card[], setDeck?:Reac
         if(card.question != ""){
           if(card.answer != ""){
             deckBuffer.push({
-              cardType: card.cardType, 
+              card_id: null,
+              deck_id: null,
+              card_type: card.card_type, 
               question: card.question,
               answer: card.answer,
             });
@@ -259,10 +267,12 @@ export default function NewCardForm({deck, setDeck}:{deck?:Card[], setDeck?:Reac
 
     }
     setCard({
+      card_id: null,
+      deck_id: null,
       question: "",
       answer: "",
       options: ["","","",""],
-      cardType: 0,
+      card_type: 0,
     });
 
   };
@@ -277,7 +287,9 @@ export default function NewCardForm({deck, setDeck}:{deck?:Card[], setDeck?:Reac
         case "0":
           if (tokens.length == 3){
             deckBuffer.push({
-              cardType: 0, 
+              card_id: null,
+              deck_id: null,
+              card_type: 0, 
               question: tokens[1],
               answer: tokens[2],
             });
@@ -289,7 +301,9 @@ export default function NewCardForm({deck, setDeck}:{deck?:Card[], setDeck?:Reac
         case "1": 
           if (tokens.length >= 5){
             deckBuffer.push({
-              cardType: 1, 
+              card_id: null,
+              deck_id: null,
+              card_type: 1, 
               question: tokens[1],
               answer: 0,
               options: tokens.filter((_,index)=>index >= 2),
@@ -302,7 +316,9 @@ export default function NewCardForm({deck, setDeck}:{deck?:Card[], setDeck?:Reac
         case "2":
           if (tokens.length == 3){
             deckBuffer.push({
-              cardType: 2, 
+              card_id: null,
+              deck_id: null,
+              card_type: 2, 
               question: tokens[1],
               answer: tokens[2],
             });

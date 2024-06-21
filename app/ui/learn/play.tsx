@@ -10,13 +10,15 @@ interface playProps{
 }
 
 export default function Play( props : playProps){
-    const cards: cardType[] = [
-        { question: "What is the capital of France?", answer: 0, options: ["Paris", "Berlin", "Rome", "Madrid"], cardType: 1},
-        { question: "Is the earth round?", answer: 0, options: ["True", "False"], cardType: 0 },
-        { question: "What is 2 + 2?", answer: 1, options: ["3", "4", "5", "6"], cardType: 1},
-        { question: "What is the chemical symbol for water?", answer: 0, options: ["H2O", "CO2", "O2", "H2"], cardType: 1 },
-        { question: "Solve the equation: x + 3 = 5. What is x?", answer: 1, options: ["1", "2", "3", "4"], cardType: 1 }
-      ];
+    const cards: cardType[] = props.cards;
+    
+    /*[
+        { question: "What is the capital of France?", answer: 0, options: ["Paris", "Berlin", "Rome", "Madrid"], card_type: 1},
+        { question: "Is the earth round?", answer: 0, options: ["True", "False"], card_type: 0 },
+        { question: "What is 2 + 2?", answer: 1, options: ["3", "4", "5", "6"], card_type: 1},
+        { question: "What is the chemical symbol for water?", answer: 0, options: ["H2O", "CO2", "O2", "H2"], card_type: 1 },
+        { question: "Solve the equation: x + 3 = 5. What is x?", answer: 1, options: ["1", "2", "3", "4"], card_type: 1 }
+      ];*/
       const decks: deckType[] = [];
     
       const [cardIndex, setCardIndex] = useState(0);
