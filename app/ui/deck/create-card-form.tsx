@@ -168,7 +168,7 @@ const BatchCreationTab: React.FC<{ onAdd: (input: string) => void }> = ({ onAdd 
 export default function NewCardForm({deck, setDeck}:{deck?:Card[], setDeck?:React.Dispatch<React.SetStateAction<Card[]>>}) {
   const width = 190;
   const [value, setValue] = useState(0);
-  const [cardClass, setCardClass] = useState<number | null>(null);
+  const [cardClass, setCardClass] = useState<number>(0);
   const [card, setCard] = useState<Card>({
     card_id: null,
     deck_id: null,
