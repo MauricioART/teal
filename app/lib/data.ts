@@ -35,8 +35,9 @@ export async function fetchDecksInfo(user_id: string){
 
 export async function fetchCards(deck_id: string){
     try{
+        noStore();
         console.log('Fetching cards...');
-        await new Promise((resolve) => setTimeout(resolve,3000));
+        //await new Promise((resolve) => setTimeout(resolve,3000));
 
         const data = await sql<Card>`
         SELECT * FROM cards WHERE deck_id = ${deck_id}`;
