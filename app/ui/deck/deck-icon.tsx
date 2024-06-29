@@ -4,20 +4,19 @@ import Image from "next/image";
 
 interface DeckSVGProps extends SVGProps<SVGSVGElement> {
   width?: number;
-  height?: number;
   imageUrl?: string; // Prop para la URL de la imagen
 }
 
 const DeckIcon = (props: DeckSVGProps) => {
-  const { width = 180, height = 242, imageUrl, ...otherProps } = props;
+  const { width = 150, imageUrl, ...otherProps } = props;
   return (
 
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width={width}
-      height={height}
+      height={1.35 * width}
       fill="none"
-      viewBox="0 0 360 485" // Adjust the viewBox according to the new dimensions
+      viewBox="-20 -20 360 485" // Adjust the viewBox according to the new dimensions
       {...otherProps}
     >
       {imageUrl && (
