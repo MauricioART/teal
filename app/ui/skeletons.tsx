@@ -18,18 +18,24 @@ const shimmer =
 export function DeckSkeleton() {
   return (
     
-    <div className={`${shimmer} flex flex-col items-center m-5 max-w-40`}>
-      <div className=" w-36 h-52 bg-gray-300 rounded-lg border-gray-400 border"/>
-      <div className=" w-36 h-5 rounded bg-gray-300 mt-1"/>
-      <div className=" w-36 h-5 mt-1 flex justify-between">
-        <div className=" w-6 h-full rounded bg-gray-300 "/>
-        <div className=" w-28 h-full rounded bg-gray-300 "/>
+    <div className={`${shimmer} flex flex-col items-center m-5`}>
+      <div className="flex flex-col items-center overflow-ellipsis">
+
+        <div className=" w-[150px] h-[185px] bg-gray-300 rounded-lg border-gray-300 border"/>
+        <div className=" w-[150px] h-5 rounded bg-gray-100 mt-2"/>
+        <div className=" w-[150px] h-5 mt-1 flex justify-between">
+          <div className=" w-6 h-full rounded bg-gray-100 "/>
+          <div className=" w-28 h-full rounded bg-gray-100 "/>
+        </div>
+        <div className=" w-[150px] h-5 rounded bg-gray-100 mt-1"/>
+        
       </div>
-      <div className=" w-36 h-5 rounded bg-gray-300 mt-1"/>
-      
     </div>
   );
 }
+
+
+
 export function CardSkeleton() {
   return (
     <div
@@ -134,11 +140,13 @@ export default function DashboardSkeleton() {
 
 export  function Collection() {
   return (
-    <div className="flex flex-col items-center">
+    
+
+    <div className="flex flex-col mx-10">
       <div
-        className={`${shimmer} relative mb-4 h-8 w-36 overflow-hidden rounded-md bg-gray-300`}
+        className={`${shimmer} relative mb-3 h-6 w-36 overflow-hidden self-center rounded-md bg-gray-100`}
       />
-      <div className="grid gap-6 sm:grid-cols-3 lg:grid-cols-6">
+      <div className="flex flex-wrap">
         <DeckSkeleton />
         <DeckSkeleton />
         <DeckSkeleton />
