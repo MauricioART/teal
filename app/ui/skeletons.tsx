@@ -1,7 +1,35 @@
+import AddCardIcon from "./deck/add-card-icon";
+import AddDeckIcon from "./deck/add-deck-icon";
+import DeckIcon from "./deck/deck-icon";
+import { Rating } from "@mui/material";
+
 // Loading animation
 const shimmer =
   'before:absolute before:inset-0 before:-translate-x-full before:animate-[shimmer_2s_infinite] before:bg-gradient-to-r before:from-transparent before:via-white/60 before:to-transparent';
 
+  {/*<div className={`${shimmer} relative overflow-hidden rounded-xl bg-gray-100 p-2 shadow-lg`}>
+      <div className="flex justify-center p-2 rounded bg-gray-300">
+      <div className="">
+      </div>
+      </div>
+      <div className=" mt-2 h-5 w-20 rounded bg-gray-200" />
+      <div className=" mt-2 h-5 w-10 rounded bg-gray-200" />
+    </div>*/}
+export function DeckSkeleton() {
+  return (
+    
+    <div className={`${shimmer} flex flex-col items-center m-5 max-w-40`}>
+      <div className=" w-36 h-52 bg-gray-300 rounded-lg border-gray-400 border"/>
+      <div className=" w-36 h-5 rounded bg-gray-300 mt-1"/>
+      <div className=" w-36 h-5 mt-1 flex justify-between">
+        <div className=" w-6 h-full rounded bg-gray-300 "/>
+        <div className=" w-28 h-full rounded bg-gray-300 "/>
+      </div>
+      <div className=" w-36 h-5 rounded bg-gray-300 mt-1"/>
+      
+    </div>
+  );
+}
 export function CardSkeleton() {
   return (
     <div
@@ -88,17 +116,53 @@ export default function DashboardSkeleton() {
       <div
         className={`${shimmer} relative mb-4 h-8 w-36 overflow-hidden rounded-md bg-gray-100`}
       />
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        <CardSkeleton />
-        <CardSkeleton />
-        <CardSkeleton />
-        <CardSkeleton />
+      <div className="grid gap-6 sm:grid-cols-3 lg:grid-cols-6">
+        <DeckSkeleton />
+        <DeckSkeleton />
+        <DeckSkeleton />
+        <DeckSkeleton />
+        <DeckSkeleton />
+        <DeckSkeleton />
       </div>
       <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-4 lg:grid-cols-8">
         <RevenueChartSkeleton />
         <LatestInvoicesSkeleton />
       </div>
     </>
+  );
+}
+
+export  function Collection() {
+  return (
+    <div className="flex flex-col items-center">
+      <div
+        className={`${shimmer} relative mb-4 h-8 w-36 overflow-hidden rounded-md bg-gray-300`}
+      />
+      <div className="grid gap-6 sm:grid-cols-3 lg:grid-cols-6">
+        <DeckSkeleton />
+        <DeckSkeleton />
+        <DeckSkeleton />
+        <DeckSkeleton />
+        <DeckSkeleton />
+        <DeckSkeleton />
+        <DeckSkeleton />
+        <DeckSkeleton />
+        <DeckSkeleton />
+        <DeckSkeleton />
+        <DeckSkeleton />
+      </div>
+      {/*
+      <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-4 lg:grid-cols-8">
+        <RevenueChartSkeleton />
+        <LatestInvoicesSkeleton />
+      </div>*/}
+    </div>
+  );
+}
+
+export function NewDeckFormSkeleton(){
+  return(
+    <></>
   );
 }
 
