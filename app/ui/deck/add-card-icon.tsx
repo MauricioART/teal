@@ -3,18 +3,17 @@ import { SVGProps } from "react"
 
 interface DeckSVGProps extends SVGProps<SVGSVGElement> {
     width?: number;
-    height?: number;
   }
 
 const AddCardIcon = (props: DeckSVGProps) => {
-    const { width = 180, height = 242, ...otherProps } = props;
+    const { width = 150, ...otherProps } = props;
     return (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width={width}
-    height={height}
+    height={1.35 * width}
     fill="none"
-    viewBox="0 0 360 485" // Ajustar el viewBox según las nuevas dimensiones
+    viewBox="-20 -20 360 485" // Ajustar el viewBox según las nuevas dimensiones
     {...props}
   >
      <rect
