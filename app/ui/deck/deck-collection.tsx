@@ -4,6 +4,7 @@ import AddDeckIcon from "./add-deck-icon";
 import Deck from "./deck";
 import { Deck as decktype } from "@/app/lib/definitions";
 import Link from "next/link";
+import { Rating } from "@mui/material";
 
 
 interface DeckCollectionProps {
@@ -15,7 +16,7 @@ export default function DeckCollection( props: DeckCollectionProps ){
     let myDecks = props.decks;
 
     return(
-        <div className=" flex flex-wrap">
+        <div className=" grid gap-6 sm:grid-cols-3 md:grid-cols-4  lg:grid-cols-5 xl:grid-cols-7 mx-10">
 
             {myDecks.map((deck, index) => {
                 return(
@@ -29,7 +30,6 @@ export default function DeckCollection( props: DeckCollectionProps ){
                     <AddDeckIcon />
                 </Link>
             </div>
-            
         </div>
     );
 }

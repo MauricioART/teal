@@ -94,14 +94,14 @@ export default function CreateDeckStepper(props: Props) {
   };
 
   return (
-    <div className='flex flex-col items-center m-2 p-2 w-full h-full justify-around'>
-      <div className=' w-full mb-16'>
+    <div className='grid grid-cols-1 grid-rows-5 items-center m-2 p-2 w-full h-full justify-around'>
+      <div className='row-span-4'>
         {activeStep === 0 && <NewDeckForm owner_id={props.user_id} formData={formData} setFormData={setFormData} />}
         {activeStep === 1 && <NewCardForm deck={deck} setDeck={setDeck}/>}
         {activeStep === 2 && <CardCollection add={false} cards={deck} deck_id={null}/> }
       </div>
-      <div className='relative w-full'>
-        <div className='fixed w-4/5 bottom-5'>
+      <div className=''>
+        <div className='px-5'>
           <Stepper activeStep={activeStep}>
             {steps.map((label, index) => {
               const stepProps: { completed?: boolean } = {};

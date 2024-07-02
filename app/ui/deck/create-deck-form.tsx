@@ -61,33 +61,33 @@ export default function NewDeckForm(props: FormProps) {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className="flex flex-col m-1 h-full p-10 bg-slate-50 rounded-md">
+      <div className="flex flex-col m-10 h-full p-10 bg-gray-200 rounded-md border-2 border-dotted border-purple-400">
         <div>
           <h1> Create </h1>
         </div>
 
         <div className="flex">
           <div className=" w-5/6">
-            <div className="flex flex-col w-2/3 h-16 border-teal-200 border-2 mb-8 mt-8 rounded ">
-              <label htmlFor="name">Title (Mandatory)</label>
+            <div className="flex flex-col w-2/3 h-16 border-teal-500 border-2 border-dotted mb-8 mt-8 rounded p-2">
+              <label htmlFor="name" className="">Title (Mandatory)</label>
               <input
                 type="text"
                 id="name"
                 name="name"
-                className="border-white focus:outline-none focus:border-none"
+                className="bg-gray-200 focus:outline-none focus:border-none"
                 value={formData.name}
                 onChange={handleChange}
                 required
               />
             </div>
-            <div className="flex flex-col w-2/3 h-28 border-2 border-teal-200 mb-8 rounded ">
+            <div className="flex flex-col w-2/3 h-28 border-2 border-teal-500 border-dotted mb-8 rounded p-2">
               <label htmlFor="description">Description</label>
               <textarea
                 id="description"
                 name="description"
                 rows={4}
                 cols={50}
-                className="focus:outline-none focus:border-none"
+                className="bg-gray-200 focus:outline-none focus:border-none"
                 value={formData.description}
                 onChange={handleChange}
                 required
@@ -95,7 +95,7 @@ export default function NewDeckForm(props: FormProps) {
             </div>
           </div>
           <div>
-            <DeckIcon />
+            <DeckIcon width={220}/>
           </div>
         </div>
 

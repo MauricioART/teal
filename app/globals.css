@@ -18,12 +18,52 @@
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
+  /*background: linear-gradient(
       to bottom,
       transparent,
       rgb(var(--background-end-rgb))
     )
-    rgb(var(--background-start-rgb));
+    rgb(var(--background-start-rgb));*/
+  background-color: rgba(229,234,235,1);
+}
+
+.main-layout{
+  display: grid;
+  grid-template-columns: 1fr 13fr;
+  grid-template-rows: 1fr 10fr ;
+}
+.header-div{
+  grid-column-start: span 2;
+}
+
+.new-card-div{
+  display: grid;
+  grid-template-columns: 1fr 2fr 2fr;
+  grid-template-rows: repeat(6, 1fr);
+}
+
+.deck-edit-div{
+  display: grid;
+  grid-template-columns: 1fr 5fr;
+  grid-row: 1fr;
+}
+.card-img{
+  grid-column-start: 1;
+  grid-column-end: 2;
+  grid-row-start: 1 ;
+  grid-row-end: -1;
+}
+
+.card-form{
+  grid-column-start: 2;
+  grid-column-end: -1;
+  grid-row-start: 1;
+  grid-row-end: -1;
+}
+
+
+.bg-gray{
+  background-color: rgb(229, 234, 235);
 }
 
 @layer utilities {
@@ -33,9 +73,9 @@ body {
 }
 
 .card-dimensions{
-  min-width: 70%;
+  min-width: 50%;
   max-width: 90%;
-  height: 80%;
+  height: 85%;
 }
 
 .animateFadeIn{

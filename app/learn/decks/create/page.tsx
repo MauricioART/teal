@@ -12,7 +12,7 @@ export default async function Page(){
 
     if (user_id != undefined){
         return(
-            <div className=" ">
+            <div className="h-full overflow-hidden">
             <CreateDeckStepper user_id={user_id}/>
             </div>
         );    

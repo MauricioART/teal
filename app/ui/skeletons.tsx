@@ -146,7 +146,7 @@ export  function Collection() {
       <div
         className={`${shimmer} relative mb-3 h-6 w-36 overflow-hidden self-center rounded-md bg-gray-100`}
       />
-      <div className="flex flex-wrap">
+      <div className="grid gap-6 sm:grid-cols-3 md:grid-cols-4  lg:grid-cols-5 xl:grid-cols-7 ">
         <DeckSkeleton />
         <DeckSkeleton />
         <DeckSkeleton />

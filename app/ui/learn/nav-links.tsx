@@ -8,6 +8,7 @@ import {
   ChartBarSquareIcon,
   FolderPlusIcon,
 } from '@heroicons/react/24/outline';
+import DeckIcon from '../deck/deck-icon';
 import Link from 'next/link';
 import {usePathname} from 'next/navigation';
 import clsx from 'clsx';
@@ -31,13 +32,17 @@ export default function NavLinks() {
             key={link.name}
             href={link.href}
             className={clsx(
-              'flex h-[48px] grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-sky-100 hover:text-teal-500 md:flex-none md:justify-start md:p-2 md:px-3',
+              'flex h-[48px] grow items-center justify-center gap-2 mb-6  bg-gray p-3 text-sm font-medium  hover:text-teal-500 md:flex-none  ',
               {
-                'bg-sky-100 text-teal-500 ': pathname === link.href,
+                ' text-teal-500 ': pathname === link.href,
               },
             )} >
-            <LinkIcon className="w-6" />
+            <div className='flex flex-col items-center'>
+
+            <LinkIcon className=" w-6" />
             <p className="hidden md:block">{link.name}</p>
+            
+            </div>
           </Link>
         );
       })}
