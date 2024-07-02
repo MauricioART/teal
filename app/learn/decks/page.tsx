@@ -17,7 +17,16 @@ export default async function Page (){
     }
 
     return (
-        <div className=" mx-10">
+        <div className="flex flex-col flex-grow overflow-y-auto">
+            <div className="flex justify-center">
+                <h1 className="">My Decks</h1>
+            </div>
+            <DeckCollection decks={myDecks}/>
+        </div>
+    );
+}
+/*
+<div className=" mx-10">
             <Breadcrumbs breadcrumbs={[
           { label: 'Learn', href: '/learn/' },
           {
@@ -26,7 +35,4 @@ export default async function Page (){
             active: true,
           },
         ]}/>
-            <DeckCollection decks={myDecks}/>
-        </div>
-    );
-}
+*/

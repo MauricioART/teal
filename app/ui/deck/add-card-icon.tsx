@@ -6,7 +6,7 @@ interface DeckSVGProps extends SVGProps<SVGSVGElement> {
   }
 
 const AddCardIcon = (props: DeckSVGProps) => {
-    const { width = 150,  ...otherProps } = props;
+    const { width = 150, ...otherProps } = props;
     return (
   <svg
     xmlns="http://www.w3.org/2000/svg"

@@ -13,16 +13,7 @@ export default async function Page(){
 
     if (user_id != undefined){
         return(
-            <div className=" ">
-            <Breadcrumbs breadcrumbs={[
-                { label: 'Learn', href: '/learn/' },
-                {
-                  label: 'Decks',
-                  href: `/learn/decks/`,
-                  active: false,
-                },
-                { label: 'Create',href: 'learn/decks/create', active: true},
-            ]}/>
+            <div className="h-full overflow-hidden">
             <CreateDeckStepper user_id={user_id}/>
             </div>
         );    

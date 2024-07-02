@@ -14,7 +14,7 @@ const DeckIcon = (props: DeckSVGProps) => {
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width={width}
-      height={1.35 * width}
+      height={1.35* width}
       fill="none"
       viewBox="-20 -20 360 485" // Adjust the viewBox according to the new dimensions
       {...otherProps}

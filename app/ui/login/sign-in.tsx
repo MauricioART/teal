@@ -3,7 +3,7 @@ import { signIn } from "@/auth"
  
 export function SignIn() {
   return (
-    <div className="flex flex-col justify-center border p-5 border-slate-900">
+    <div className="flex flex-col justify-center border border-teal-600 p-5 rounded-lg">
     <form
       action={async () => {
         "use server"
