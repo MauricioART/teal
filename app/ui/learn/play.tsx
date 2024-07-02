@@ -10,15 +10,21 @@ interface playProps{
 }
 
 export default function Play( props : playProps){
-    const cards: cardType[] = props.cards;
+    //const cards: cardType[] = props.cards;
     
-    /*[
-        { question: "What is the capital of France?", answer: 0, options: ["Paris", "Berlin", "Rome", "Madrid"], card_type: 1},
-        { question: "Is the earth round?", answer: 0, options: ["True", "False"], card_type: 0 },
-        { question: "What is 2 + 2?", answer: 1, options: ["3", "4", "5", "6"], card_type: 1},
-        { question: "What is the chemical symbol for water?", answer: 0, options: ["H2O", "CO2", "O2", "H2"], card_type: 1 },
-        { question: "Solve the equation: x + 3 = 5. What is x?", answer: 1, options: ["1", "2", "3", "4"], card_type: 1 }
-      ];*/
+    const cards: cardType[] = [
+        { card_id: "1", deck_id:"fefsfe", question: "What is the capital of France?", answer: 0, options: ["Paris", "Berlin", "Rome", "Madrid"], card_type: 1},
+        { card_id: "2", deck_id:"fefsfee", question: "Is the earth round?", answer: 0, options: ["True", "False"], card_type: 0 },
+        { card_id: "3", deck_id:"fefsffe", question: "What is 2 + 2?", answer: 1, options: ["3", "4", "5", "6"], card_type: 1},
+        { card_id: "4", deck_id:"fefgsfe", question: "What is the chemical symbol for water?", answer: 0, options: ["H2O", "CO2", "O2", "H2"], card_type: 1 },
+        { card_id: "5", deck_id:"feffsfe", question: "Solve the equation: x + 3 = 5. What is x?", answer: 1, options: ["1", "2", "3", "4"], card_type: 1 },
+        { card_id: "1", deck_id:"fefsfe", question: "What is the capital of France?", answer: 0, options: ["Paris", "Berlin", "Rome", "Madrid"], card_type: 1},
+        { card_id: "2", deck_id:"fefsfee", question: "Is the earth round?", answer: 0, options: ["True", "False"], card_type: 0 },
+        { card_id: "3", deck_id:"fefsffe", question: "What is 2 + 2?", answer: 1, options: ["3", "4", "5", "6"], card_type: 1},
+        { card_id: "4", deck_id:"fefgsfe", question: "What is the chemical symbol for water?", answer: 0, options: ["H2O", "CO2", "O2", "H2"], card_type: 1 },
+        { card_id: "5", deck_id:"feffsfe", question: "Solve the equation: x + 3 = 5. What is x?", answer: 1, options: ["1", "2", "3", "4"], card_type: 1 }
+      ];
+
       const decks: deckType[] = [];
     
       const [cardIndex, setCardIndex] = useState(0);
@@ -46,7 +52,7 @@ export default function Play( props : playProps){
       if(cards.length > 0)
         return (
           <main className="flex h-full px-0">
-            <div className="flex w-4/5 h-full overflow-hidden">
+            <div className="flex w-full h-full overflow-hidden">
               <div className="flex justify-end items-center flex-grow">
                 <div className={arrowBtnClasses('left')} onClick={() => handleArrowClick('left')}>
                   <ArrowLeftIcon className="w-8" /> <p>easy</p>
@@ -67,7 +73,9 @@ export default function Play( props : playProps){
                 </div>
               </div>
             </div>
-            <div className="w-1/5 h-full "></div>
+           {/* <div className="w-1/5 h-full ">
+               Information 
+            </div>*/}
           </main>
         );
       else
