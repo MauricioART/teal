@@ -29,6 +29,7 @@ const CardFormSchema = z.object({
 });
   
 const CreateCard = CardFormSchema.omit({card_id:true});
+const DeleteCard = CardFormSchema.omit({question: true, answer: true, options:true,card_type: true})
  
 
 export async function deleteInvoice ( invoiceId: string , formData: FormData){
@@ -67,7 +68,7 @@ export async function createCard(deckId: string, card: Card){
 }
 
 export async function deleteCard(cardId: number, deckId: string){
-  const {card_id, deck_id} = CardFormSchema.parse({
+  const {card_id, deck_id} = DeleteCard.parse({
     card_id: cardId,
     deck_id: deckId
   });
