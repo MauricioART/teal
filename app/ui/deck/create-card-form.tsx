@@ -1,14 +1,15 @@
 "use client";
 import { Fragment, useState } from "react";
-import { createCard } from "@/app/lib/actions";
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import { Box, MenuItem } from "@mui/material";
 import Image from "next/image";
 import Button from "../button";
 import { Card } from "@/app/lib/definitions";
+import UpdateCardCarousel from "./update-card-carousel";
 import { Switch,  Select, SelectChangeEvent } from "@mui/material";
-
+import { Box, MenuItem } from "@mui/material";
+import Badge from '@mui/material/Badge';
+import Tab from '@mui/material/Tab';
+import Tabs from '@mui/material/Tabs';
+import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -56,7 +57,7 @@ function CardForm({ cardType, card, setCard }: { cardType: number, card: Card, s
   return (
     <Box sx={{ height: '100%', width: '100%' }}>
       {cardType === 0 && (
-        <div className="flex justify-around items-center h-full p-10">
+        <div className="flex justify-around items-center h-full p-6">
           <div className="flex flex-col items-start">
             <label className="ml-2"> Question</label>
             <textarea
@@ -105,16 +106,15 @@ function CardForm({ cardType, card, setCard }: { cardType: number, card: Card, s
           </div>
           <div className="flex flex-col justify-center items-start">
             {card.options && card.options.map((option, index) => (
-              <>
-              <label htmlFor="" className="">Option {index + 1}</label>
+              <div key={index} className="flex flex-col">
+              <label htmlFor="" className="" >Option {index + 1}</label>
               <input
-                key={index}
                 type="text"
                 placeholder={index === 0 ? "CORRECT ANSWER" : "INCORRECT ANSWER"}
                 value={option}
                 className="pl-1 border-2 rounded-lg focus:border-teal-400 border-teal-500 mb-1 w-96"
                 onChange={(e) => handleOptionChange(index, e.target.value)}
-              /></>
+              /></div>
             ))}
           </div>
         </div>
@@ -173,6 +173,8 @@ const BatchCreationTab: React.FC<{ onAdd: (input: string) => void }> = ({ onAdd 
 
 export default function NewCardForm({deck, setDeck}:{deck?:Card[], setDeck?:React.Dispatch<React.SetStateAction<Card[]>>}) {
   const width = 160;
+  const [open, setOpen] = useState(false)
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [value, setValue] = useState(0);
   const [cardClass, setCardClass] = useState<number>(0);
   const [card, setCard] = useState<Card>({
@@ -346,15 +348,19 @@ export default function NewCardForm({deck, setDeck}:{deck?:Card[], setDeck?:Reac
     } else {
       setLocalDeck(deckBuffer);
     }
-    console.log(deck);
   };
 
   return (
-    <div className="m-5 px-5 py-4 bg-gray-200 rounded-md border-2 border-dotted border-green-400">
+    <div className="mx-5 px-5 py-4 bg-gray-200 rounded-md border-2 border-dotted border-green-400">
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" className="justify-between">
           <Tab label="One by one creation" {...a11yProps(0)} />
           <Tab label="Batch creation" {...a11yProps(1)} />
+          <button  className="self-center ml-auto mr-10">
+            <Badge badgeContent={localDeck.length} color="primary" >
+              <LibraryBooksIcon color="action" />
+            </Badge>
+          </button>
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
@@ -402,6 +408,14 @@ export default function NewCardForm({deck, setDeck}:{deck?:Card[], setDeck?:Reac
       <CustomTabPanel value={value} index={1}>
           <BatchCreationTab  onAdd={handleBatchAdd}/>
       </CustomTabPanel>
+      <UpdateCardCarousel 
+            deck={deck ? deck : []}
+            setDeck={setDeck ? setDeck : ()=>{}}
+            open={open}
+            handleClose={setOpen}
+            index={currentIndex != null ? currentIndex : 0}
+            setIndex={setCurrentIndex}
+        />
     </div>
   );
 }
