@@ -13,26 +13,27 @@ export default async function Page (){
     
     if (session.user.id != undefined){
         console.log(session.user.id);
-        myDecks = await fetchDecks(session.user.id);
+       myDecks = await fetchDecks(session.user.id);
     }
 
     return (
         <div className="flex flex-col flex-grow overflow-y-auto">
-            <div className="flex justify-center">
+            <Breadcrumbs breadcrumbs={[
+                { label: 'Learn', href: '/learn/' },
+                {
+                    label: 'Decks',
+                    href: `/learn/decks/`,
+                    active: true,
+                },
+            ]}/>
+            {/*<div className="flex justify-center">
                 <h1 className="">My Decks</h1>
-            </div>
+            </div>*/}
             <DeckCollection decks={myDecks}/>
         </div>
     );
 }
 /*
 <div className=" mx-10">
-            <Breadcrumbs breadcrumbs={[
-          { label: 'Learn', href: '/learn/' },
-          {
-            label: 'Decks',
-            href: `/learn/decks/`,
-            active: true,
-          },
-        ]}/>
+            
 */
