@@ -1,31 +1,38 @@
 import CardCollection from '@/app/ui/deck/card-collection';
 import Breadcrumbs from '@/app/ui/breadcrumbs';
-import { fetchCards, fetchDecks } from '@/app/lib/data';
+import { fetchCards, fetchDeck } from '@/app/lib/data';
+import UpdateDeck from '@/app/ui/deck/update-deck-form';
+import DeckIcon from '@/app/ui/deck/deck-icon';
 
  
 export default async function Page({ params }: { params: { deckId: string } }) {
     const deckId = params.deckId;
     const cards= await fetchCards(deckId);
-    //const deck = await fetchDecks(deckId);
-    console.log(cards);
+    const deck = await fetchDeck(deckId);
   return (
-    <div className='deck-edit-div h-full w-full'>
-      <div className='border-2 border-dotted border-teal-500 p-2'>
-
-      </div>
-      <div className='border-2 border-dotted border-teal-900'>
-        <CardCollection cards={cards} deck_id={deckId} add={true}/>
-      </div>
-    </div>
-  );
-}
-/* <Breadcrumbs breadcrumbs={[
+    <div className='p-1 h-full w-full'>
+      <Breadcrumbs breadcrumbs={[
           { label: 'Learn', href: '/learn/' },
           {
             label: 'Decks',
             href: `/learn/decks/`,
             active: false,
           },
-          { label: 'Create',href: `learn/decks/${deckId}`, active: true},
+          { label: 'Edit',href: `learn/decks/${deckId}/edit`, active: true},
       ]} />
-*/
+      <div className='deck-edit-div h-full w-full overflow-hidden  '>
+        <div className=' col-start-1 col-end-2 justify-self-center place-self-center border-2 border-teal-400 rounded-md shadow-xl p-2'>
+          <DeckIcon />
+        </div>
+        <div className=' col-start-1 row-start-2 row-span-2 pl-6'>
+          <p>Titulo: {deck[0].name}</p>        
+          <p>Description: {deck[0].description}</p>
+        </div>
+        <div className='col-start-2 row-start-1 row-end-5  h-full w-full'>
+          <CardCollection cards={cards} deck_id={deckId} add={true}/>
+        </div>
+      </div>
+    </div>
+
+  );
+}
