@@ -1,8 +1,8 @@
 
 export type Deck = {
-    deck_id: number;
+    deck_id: string;
     name: string;
-    owner_id: number;
+    owner_id: string;
     description: string;
     coverImage?: Blob;
     score: number;
