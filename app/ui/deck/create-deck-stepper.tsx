@@ -80,7 +80,7 @@ export default function CreateDeckStepper(props: Props) {
     const deckId = await createDeck(deckFormData);
     if (deckId){
       deck.map(async (card, index)=>{
-        await createCard(deckId,card);
+        await createCard(deckId,card,'/learn/decks/');
       });
       
     }
@@ -125,13 +125,6 @@ export default function CreateDeckStepper(props: Props) {
           </Stepper>
           {activeStep === steps.length ? (
             <Fragment>
-              {/*<Typography sx={{ mt: 2, mb: 1 }}>
-                All steps completed - you&apos;re finished
-              </Typography>
-              <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-                <Box sx={{ flex: '1 1 auto' }} />
-                <Button onClick={handleReset}>Reset</Button>
-              </Box>*/}
               
             </Fragment>
           ) : (

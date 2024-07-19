@@ -40,7 +40,7 @@ export async function deleteInvoice ( invoiceId: string , formData: FormData){
     
 }
 
-export async function createCard(deckId: string, card: Card){
+export async function createCard(deckId: string, card: Card, redirectionPath: string){
   const {deck_id, question, answer, options, card_type} = CreateCard.parse({
     deck_id : deckId,
     question: card.question,
@@ -63,8 +63,8 @@ export async function createCard(deckId: string, card: Card){
     const response = await sql`INSERT INTO cards (deck_id,question,answer,card_type)
                               VALUES (${deck_id},${question},${answer},${card_type})`;
   }
-  revalidatePath('/learn/decks');
-  redirect('/learn/decks');
+  revalidatePath(redirectionPath);
+  redirect(redirectionPath);
 }
 
 export async function deleteCard(cardId: number, deckId: string){
