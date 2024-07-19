@@ -25,6 +25,13 @@ body {
     )
     rgb(var(--background-start-rgb));*/
   background-color: rgba(229,234,235,1);
+  background-image: url("https://www.transparenttextures.com/patterns/inspiration-geometry.png");
+}
+
+.bg-image{
+  
+  background-color: rgba(229,234,235,1);
+  background-image: url("https://www.transparenttextures.com/patterns/inspiration-geometry.png");
 }
 
 .main-layout{
@@ -44,8 +51,8 @@ body {
 
 .deck-edit-div{
   display: grid;
-  grid-template-columns: 1fr 5fr;
-  grid-row: 1fr;
+  grid-template-columns: 1fr 4fr;
+  grid-row: repeat(4, 1fr);
 }
 .card-img{
   grid-column-start: 1;
@@ -61,6 +68,20 @@ body {
   grid-row-end: -1;
 }
 
+.loader {
+  border: 16px solid #f3f3f3; /* Light grey */
+  border-top: 16px solid #3498db; /* Blue */
+  border-bottom: 16px solid #3498db; /* Blue */
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
 
 .bg-gray{
   background-color: rgb(229, 234, 235);

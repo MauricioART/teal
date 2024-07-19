@@ -10,12 +10,12 @@ export default function SideNav() {
         <div className='mt-10'>
         <NavLinks />
         </div>
-        <div className="hidden h-auto w-full grow rounded-md bg-gray md:block"></div>
+        <div className="hidden h-auto w-full grow rounded-md md:block"></div>
         <form className='' action={async () => {
         "use server"
         await signOut({redirectTo:"/login"})
         }}>
-         <button type='submit' className="flex h-[48px] w-full grow items-center justify-center gap-2  bg-gray p-3 text-sm font-medium  hover:text-teal-500 md:flex-none ">
+         <button type='submit' className="flex h-[48px] w-full grow items-center justify-center gap-2  p-3 text-sm font-medium  hover:text-teal-500 md:flex-none ">
             <div className='flex flex-col items-center'>
             <PowerIcon className="w-6" />
             <p className="hidden md:block">Sign Out</p>

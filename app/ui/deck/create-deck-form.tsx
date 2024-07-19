@@ -4,7 +4,7 @@ import Button from "../button";
 import DeckIcon from "./deck-icon";
 import { useState, FormEvent, ChangeEvent } from 'react';
 import Link from "next/link";
-
+import EditIcon from '@mui/icons-material/Edit';
 
 interface FormData {
   name: string;
@@ -94,12 +94,20 @@ export default function NewDeckForm(props: FormProps) {
               ></textarea>
             </div>
           </div>
-          <div>
+          <div className="relative">
+          <EditIcon 
+                        className="h-8 w-8 p-1 absolute top-7 right-6 bg-gray-200 border opacity-50 border-gray-300 rounded-full hover:bg-gray-100 hover:p-0" 
+                        key={1}
+                        onClick={async (e) => {
+                            e.stopPropagation();
+                        }}
+            />
+            
             <DeckIcon width={220}/>
           </div>
         </div>
 
-        <div>
+        {/*<div>
           <label htmlFor="image">Thumbnail:</label>
           <input
             type="file"
@@ -109,7 +117,7 @@ export default function NewDeckForm(props: FormProps) {
             title=""
             onChange={handleFileChange}
           />
-        </div>
+        </div>*/}
 
       </div>
     </form>
