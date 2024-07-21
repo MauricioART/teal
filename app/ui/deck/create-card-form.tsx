@@ -66,7 +66,7 @@ function CardForm({ cardType, card, setCard }: { cardType: number, card: Card, s
               placeholder="QUESTION"
               rows={4}
               cols={45}
-              className="focus:outline-none focus:border-none p-2 rounded-lg border-teal-500 border-2"
+              className="focus:outline-teal-400 focus:border-none p-2 rounded-lg border-teal-500 border-2"
               value={card.question}
               onChange={(event) => setCard({ ...card, question: event.target.value })}
               required
@@ -80,7 +80,7 @@ function CardForm({ cardType, card, setCard }: { cardType: number, card: Card, s
               rows={4}
               placeholder="ANSWER"
               cols={45}
-              className="focus:outline-none focus:border-none p-2 rounded-lg border-teal-500 border-2"
+              className="focus:outline-teal-400 focus:border-none p-2 rounded-lg border-teal-500 border-2"
               value={card.answer}
               onChange={(event) => setCard({ ...card, answer: event.target.value })}
               required
@@ -98,7 +98,7 @@ function CardForm({ cardType, card, setCard }: { cardType: number, card: Card, s
               placeholder="QUESTION"
               rows={6}
               cols={50}
-              className="focus:outline-none focus:border-teal-400 p-2 rounded-lg border-teal-500 border-2"
+              className="focus:outline-none focus:outline-teal-400 p-2 rounded-lg border-teal-500 border-2"
               value={card.question}
               onChange={(event) => setCard({ ...card, question: event.target.value })}
               required
@@ -127,7 +127,7 @@ function CardForm({ cardType, card, setCard }: { cardType: number, card: Card, s
             placeholder="QUESTION"
             rows={6}
             cols={60}
-            className="focus:outline-none focus:border-teal-400 p-2 rounded-lg border-teal-500 border-2"
+            className="focus:outline-none focus:outline-teal-400 p-2 rounded-lg border-teal-500 border-2"
             value={card.question}
             onChange={(event) => setCard({ ...card, question: event.target.value })}
             required
@@ -160,11 +160,11 @@ const BatchCreationTab: React.FC<{ onAdd: (input: string) => void }> = ({ onAdd 
         placeholder="Example:\n 1;What does ANSI stand for?;American National Standards Institute"
         rows={10}
         cols={90}
-        className="focus:outline-none focus:border-none p-4"
+        className="border-2 border-teal-500 rounded-lg  focus:outline-teal-400 focus:border-none p-4"
         value={input}
         onChange={handleChange}
         required
-      ></textarea>
+      />
       <Button onClick={handleAdd}>Add</Button>
     </div>
   );

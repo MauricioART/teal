@@ -1,6 +1,4 @@
-import NewCardForm from "@/app/ui/deck/create-card-form";
 import Breadcrumbs from "@/app/ui/breadcrumbs";
-import Image from "next/image";
 import { fetchDeck } from "@/app/lib/data";
 import AddNewCards from "@/app/ui/deck/add-new-cards";
 
@@ -13,8 +11,8 @@ export default async function Page({ params }: { params: { deckId: string } }){
     console.log(deck);
     
     return(
-        <div className="flex flex-col justify-evenly items-center h-5/6">
-            <div className="self-start ml-1 mt-1">
+        <div className="flex flex-col justify-evenly items-center">
+            <div className="self-start">
                 <Breadcrumbs           
                 breadcrumbs={[
                     { label: 'Learn', href: '/learn/' },
@@ -27,7 +25,9 @@ export default async function Page({ params }: { params: { deckId: string } }){
                     { label: 'New', href: `/learn/decks/${deckId}/new`, active: true},
                 ]} />
             </div>
-            <AddNewCards deckId={deckId}/>
+            <div className="h-full w-full m-3 p-2">
+                <AddNewCards deckId={deckId}/>
+            </div>
         </div>
     );
 }

@@ -12,7 +12,7 @@ interface ButtonProps {
       <button
         id={props.id.toString()}
         disabled={props.isDisabled}
-        className="h-auto rounded-full px-3 m-3"
+        className="h-auto rounded-full px-5 m-3 text-white"
         style={{ backgroundColor: props.color }}
         onClick={(event)=>{props.handleButtonClick(event,"Hello")}} >
         {props.text}

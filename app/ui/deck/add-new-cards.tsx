@@ -22,7 +22,7 @@ export default function AddNewCards(props : componentProps){
     return(
         <div className="flex flex-col w-full h-full">
             <NewCardForm deck={deck} setDeck={setDeck} />
-            <Button className="self-end " color="primary" onClick={handleSubmit}> Submit</Button>
+            <Button className="self-end m-3 mr-5 p-2" color="primary" variant="outlined" onClick={handleSubmit}> Submit</Button>
         </div>
     );
 }
