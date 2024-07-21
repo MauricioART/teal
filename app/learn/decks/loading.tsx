@@ -1,7 +1,7 @@
-import { Collection } from "@/app/ui/skeletons";
+import { DeckCollectionSkeleton } from "@/app/ui/skeletons";
 
 export default function Loading(){
     return(
-        <Collection/>
+        <DeckCollectionSkeleton/>
     );
 }

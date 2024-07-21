@@ -1,7 +1,7 @@
-import { RevenueChartSkeleton } from "@/app/ui/skeletons";
+import { DeckEditSkeleton } from "@/app/ui/skeletons";
 
 export default function Loading(){
     return(
-        <RevenueChartSkeleton/>
+        <DeckEditSkeleton/>
     );
 }

@@ -1,7 +1,7 @@
-import { TableRowSkeleton } from "@/app/ui/skeletons";
+import { CreateDeckSkeleton } from "@/app/ui/skeletons";
 
 export default function Loading(){
     return(
-        <TableRowSkeleton/>
+        <CreateDeckSkeleton/>
     );
 }
