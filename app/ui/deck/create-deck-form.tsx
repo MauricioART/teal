@@ -1,9 +1,7 @@
 "use client";
 import { createDeck } from "@/app/lib/actions";
-import Button from "../button";
 import DeckIcon from "./deck-icon";
-import { useState, FormEvent, ChangeEvent } from 'react';
-import Link from "next/link";
+import { FormEvent, ChangeEvent } from 'react';
 import EditIcon from '@mui/icons-material/Edit';
 
 interface FormData {

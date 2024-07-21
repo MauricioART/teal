@@ -1,10 +1,8 @@
 'use client';
-import DeckIcon from "./deck-icon";
 import AddDeckIcon from "./add-deck-icon";
 import Deck from "./deck";
 import { Deck as decktype } from "@/app/lib/definitions";
 import Link from "next/link";
-import { Rating } from "@mui/material";
 
 
 interface DeckCollectionProps {

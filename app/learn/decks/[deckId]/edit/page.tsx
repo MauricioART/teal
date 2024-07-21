@@ -1,7 +1,6 @@
 import CardCollection from '@/app/ui/deck/card-collection';
 import Breadcrumbs from '@/app/ui/breadcrumbs';
 import { fetchCards, fetchDeck } from '@/app/lib/data';
-import UpdateDeck from '@/app/ui/deck/update-deck-form';
 import DeckIcon from '@/app/ui/deck/deck-icon';
 
  
@@ -10,7 +9,7 @@ export default async function Page({ params }: { params: { deckId: string } }) {
     const cards= await fetchCards(deckId);
     const deck = await fetchDeck(deckId);
   return (
-    <div className='p-1 h-full w-full'>
+    <div className='h-full w-full'>
       <Breadcrumbs breadcrumbs={[
           { label: 'Learn', href: '/learn/' },
           {

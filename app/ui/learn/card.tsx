@@ -1,118 +1,81 @@
 'use client';
-import { useState } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import Button from './button';
 import clsx from 'clsx';
-import { Card as card} from "@/app/lib/definitions";
+import { Card as CardType } from "@/app/lib/definitions";
 
-interface cardProps {
-  card: card;
+interface CardProps {
+  card: CardType;
   direction: "up" | "down" | "left" | "right" | null;
   enableArrowBtns: boolean;
   setEnableArrowBtns: React.Dispatch<React.SetStateAction<boolean>>;
-
 }
 
-export default function Card(props: cardProps){
-    const question = props.card.question;
-    const answer = props.card.answer;
+export default function Card({ card, direction, setEnableArrowBtns }: CardProps) {
   const [reveal, setReveal] = useState(false);
   const [isDisabled, setDisabled] = useState(false);
-const [isHidden, setHidden] = useState(false);
   const [isCorrect, setCorrect] = useState<boolean>(false);
 
-  
-    const cardClasses = clsx(
+  const cardClasses = useMemo(() => clsx(
     'flex flex-col justify-between card-dimensions flex-wrap p-8 rounded-2xl border border-black content-center text-center shadow-lg bg-white',
     {
-      'animateUp': props.direction === "up",
-      'animateDown': props.direction === "down",
-      'animateLeft': props.direction === "left",
-      'animateRight': props.direction === "right",
+      'animateUp': direction === "up",
+      'animateDown': direction === "down",
+      'animateLeft': direction === "left",
+      'animateRight': direction === "right",
       'correct': isCorrect && isDisabled,
       'incorrect': !isCorrect && isDisabled,
     }
-  );
+  ), [direction, isCorrect, isDisabled]);
 
-  function handleReveal (){
+  const handleReveal = useCallback(() => {
     setReveal(!reveal);
-    props.setEnableArrowBtns(true);
-  }
+    setEnableArrowBtns(true);
+  }, [reveal, setEnableArrowBtns]);
 
-  function handleClick(event: React.MouseEvent<HTMLButtonElement>){
+  const handleClick = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
     const target = event.target as HTMLButtonElement;
     const id = parseInt(target.id);
-    if (answer === id){
-            setCorrect(true);
-        }
-        else{
-            setCorrect(false);
-        }
+    setCorrect(card.answer === id);
     setDisabled(true);
-    props.setEnableArrowBtns(true);
-  }
+    setEnableArrowBtns(true);
+  }, [card.answer, setEnableArrowBtns]);
 
-    switch (props.card.card_type){
-        case 0:
-            return (
-                <div className={cardClasses}>
-        <div className='mt-16'>
-                        {question}
+  const renderButtons = useCallback(() => {
+    return card.options?.map((option, index) => (
+      <div key={index}>
+        <Button id={index} text={String.fromCharCode(65 + index)} color="#98D7C2" handleButtonClick={handleClick} isDisabled={isDisabled} />
+        {option}
       </div>
-    <div className='flex justify-evenly mb-16 '>
-                        <Button key={0} id={0} text="True" color="#98D7C2" handleButtonClick={handleClick} isDisabled={isDisabled}/>
-                        <Button key={1} id={1} text="False" color="#98D7C2" handleButtonClick={handleClick} isDisabled={isDisabled}/>
-                    </div>
-                    
-                </div>
-            );
-            break;
-        case 1:
-            if (props.card.options)
+    ));
+  }, [card.options, handleClick, isDisabled]);
+
   return (
     <div className={cardClasses}>
-      <div className='mt-16'>
-        {question}
+      <div className='mt-16 text-center'>
+        <p className='whitespace-normal break-words'>{card.question}</p>
       </div>
-      <div className='flex flex-col flex-wrap items-start ml-4 mb-10'>
-                    <div>
-                        <Button key={0} id={0} text="A" color="#98D7C2" handleButtonClick={handleClick} isDisabled={isDisabled}/>
-                        {props.card.options[0]}
+      {card.card_type === 0 && (
+        <>
+          <div className={reveal ? '' : 'invisible'}>
+            <p>{card.answer}</p>
           </div>
-          <div>
-            <Button key={1} id={1} text="B" color="#98D7C2" handleButtonClick={handleClick} isDisabled={isDisabled}/>
-{props.card.options[1]}
+          <div className='mb-16'>
+            <Button id={0} text="Reveal" color="#1679AB" handleButtonClick={handleReveal} isDisabled={isDisabled} />
           </div>
-        <div>
-                        <Button key={2} id={2} text="C" color="#98D7C2" handleButtonClick={handleClick} isDisabled={isDisabled}/>
-                        {props.card.options[2]}
+        </>
+      )}
+      {card.card_type === 1 && card.options && (
+        <div className='flex flex-col flex-wrap items-start ml-4 mb-10'>
+          {renderButtons()}
         </div>
-      <div>
-          <Button key={3}  id={3} text="D" color="#98D7C2" handleButtonClick={handleClick} isDisabled={isDisabled}/>
-{props.card.options[3]}
+      )}
+      {card.card_type === 2 && (
+        <div className='flex justify-evenly mb-16'>
+          <Button id={0} text="True" color="#06D001" handleButtonClick={handleClick} isDisabled={isDisabled} />
+          <Button id={1} text="False" color="#FF0000" handleButtonClick={handleClick} isDisabled={isDisabled} />
         </div>
-      {/*<RadioButton options={answer}/>*/}
-                    </div>
-                    
-                </div>
-            );
-            break;
-        case 2:
-            return (
-                <div className={cardClasses}>
-                    <div className='mt-16'>
-                        {question}
-                    </div>
-                    <div className={(reveal)?'':'invisible'}>
-                        <p>{answer}</p>
-                    </div>
-                    <div className='mb-16' hidden={isHidden}>
-                        <Button key={0} id={0} text="Reveal" color="#98D7C2" handleButtonClick={handleReveal}isDisabled={isDisabled} />
-                    </div>
-                    
-                </div>
-            );
-            break;
-            default:
-              break;
-    }
+      )}
+    </div>
+  );
 }

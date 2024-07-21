@@ -1,14 +1,9 @@
 'use client';
 import {
-  UserGroupIcon,
-  DocumentDuplicateIcon,
   BookOpenIcon,
   FolderIcon,
-  FolderOpenIcon,
   ChartBarSquareIcon,
-  FolderPlusIcon,
 } from '@heroicons/react/24/outline';
-import DeckIcon from '../deck/deck-icon';
 import Link from 'next/link';
 import {usePathname} from 'next/navigation';
 import clsx from 'clsx';

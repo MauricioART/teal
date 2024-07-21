@@ -4,10 +4,7 @@ import { Card } from "@/app/lib/definitions";
 import Link from "next/link";
 import AddCardIcon from "./add-card-icon";
 import CardIcon from "./card-icon";
-import NewCardForm from "./create-card-form";
-import Button from '@mui/material/Button';
 import { deleteCard, updateCard } from "@/app/lib/actions";
-import { Switch } from "@mui/material";
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import UpdateCardCarousel from "./update-card-carousel";
 

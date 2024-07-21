@@ -1,6 +1,7 @@
 'use client';
 import { on } from "events";
-import * as React from "react"
+import { useState } from "react";
+
 
 interface IconProps{
     color?: string;
@@ -10,7 +11,7 @@ interface IconProps{
 const TimeModeIcon: React.FC<IconProps> = ({ color = "#FFD700" , width = 250, setWasClicked,
     ...props }) =>{
     
-    const [isHovered, setIsHovered] = React.useState(false);
+    const [isHovered, setIsHovered] = useState(false);
 
     const handleClick = (event: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
         // Lógica del manejador de clics

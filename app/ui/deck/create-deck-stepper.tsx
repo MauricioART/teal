@@ -11,8 +11,6 @@ import NewCardForm from './create-card-form';
 import { Card } from '@/app/lib/definitions';
 import CardCollection from './card-collection';
 import { createCard, createDeck } from '@/app/lib/actions';
-import { redirect } from 'next/navigation';
-import { revalidatePath } from 'next/cache';
 
 const steps = ['Deck Info', 'Create cards', 'Submit'];
 

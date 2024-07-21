@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Button, Box, Typography } from '@mui/material';
+import { useState, useEffect, useRef } from 'react';
+import { Typography } from '@mui/material';
 
 interface TimerProps {
   start: boolean;

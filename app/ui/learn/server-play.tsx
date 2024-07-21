@@ -1,7 +1,6 @@
 'use server';
 import { Deck as deckType, Card as cardType } from "@/app/lib/definitions";
 import { fetchCards } from "@/app/lib/data";
-import Play from "./play"; // Importa tu componente funcional
 
 interface ServerPlayProps {
   decks: deckType[];
