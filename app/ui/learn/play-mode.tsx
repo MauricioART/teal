@@ -1,5 +1,5 @@
 'use client';
-import { useState, useRef } from "react";
+import { useState } from "react";
 import TimeModeIcon from "./time-mode-icon";
 import CardModeIcon from "./card-mode-icon";
 import clsx from "clsx";
@@ -9,9 +9,9 @@ import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import CardsSelector from "./cards-selector";
 import TimeSelector from "./time-selector";
-import ServerPlay from "./server-play";
-import Play from "./play";
 import Alert from '@mui/material/Alert';
+import TimerMode from "./timer-mode";
+import FixedCardsMode from "./fixed-cards-mode";
 
 
 interface PlayModeProps {
@@ -80,11 +80,23 @@ const PlayMode: React.FC<PlayModeProps> = (props) => {
                 </div>
             )}
             {hasStarted && timeClicked && (
-                <Play mode={true} time={time} setTime={setTime} filteredCards={filteredCards} />
+                <div className="w-full h-full relative">
+                    <div className=" absolute z-40 left-20 top-16 flex justify-center items-center text-lg hover:cursor-pointer" onClick={()=>{setHasStarted(false);}}>
+                        <ArrowBackIosNewIcon  fontSize="large"/>
+                        Back
+                    </div>
+                    <TimerMode time={time} setTime={setTime} filteredCards={filteredCards} />
+                </div>
             )}
             
             {hasStarted && cardClicked && (
-                <Play mode={false} numberOfCards={numberOfCards} filteredCards={filteredCards} />
+                <div className="w-full h-full relative">
+                    <div className=" absolute z-40 left-20 top-16 flex justify-center items-center text-lg hover:cursor-pointer" onClick={()=>{setHasStarted(false);}}>
+                        <ArrowBackIosNewIcon  fontSize="large"/>
+                        Back
+                    </div>
+                    <FixedCardsMode numberOfCards={numberOfCards} filteredCards={filteredCards} />
+                </div>
             )}
         </>
     );

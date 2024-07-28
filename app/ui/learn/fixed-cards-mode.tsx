@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import Card from "@/app/ui/learn/card";
-import { ArrowDownIcon, ArrowLeftIcon, ArrowRightIcon, ArrowUpIcon } from '@heroicons/react/24/outline';
 import clsx from "clsx";
 import { Card as cardType } from "@/app/lib/definitions";
 import { Typography } from "@mui/material/";
@@ -15,12 +14,25 @@ const FixedCardsMode: React.FC<CardsModeProps> = ({ numberOfCards, filteredCards
   const [currentCardIndex, setCurrentCardIndex] = useState<number>(0);
   const [currentCard, setCurrentCard] = useState<cardType | null>(filteredCards[Math.floor(Math.random() * (filteredCards.length - 1))]);
   const [cardPriority, setCardPriority] = useState<number[]>(new Array(filteredCards.length).fill(50));
-  const [enableArrowBtns, setEnableArrowBtns] = useState(false);
-  const [direction, setDirection] = useState<"up" | "down" | "left" | "right" | null>(null);
   const [cardsLeft, setCardsLeft] = useState<number>(numberOfCards);
   const [startTime, setStartTime] = useState<Date | null>(null);
   const [endTime, setEndTime] = useState<Date | null>(null);
+  const [isCorrect, setCorrect] = useState<boolean | null>(null);
+  const [priorityAdjustment, setPriorityAdjustment] = useState<number>(0);
+  const [direction, setDirection] = useState<"up" | "down" | "left" | "right" | null>(null);
+  const [activeDelay, setActiveDelay] = useState(false);
+  const [activeAnimation, setActiveAnimation] = useState(false);
 
+  const cardClasses = useMemo(() => clsx(
+    'flex flex-col justify-between card-dimensions flex-wrap p-8 rounded-2xl border border-black content-center text-center shadow-lg bg-white',
+    {
+      'animateUp': direction === 'up' && activeAnimation,
+      'animateDown': direction === 'down' && activeAnimation,
+      'animateLeft': direction === 'left' && activeAnimation,
+      'animateRight': direction === 'right' && activeAnimation,
+    }
+  ), [direction, activeAnimation]);
+  
   useEffect(() => {
     if (startTime === null) {
       setStartTime(new Date());
@@ -56,67 +68,76 @@ const FixedCardsMode: React.FC<CardsModeProps> = ({ numberOfCards, filteredCards
 
     setCurrentCard(filteredCards[nextCardIndex]);
     setCurrentCardIndex(nextCardIndex);
-  }, [cardPriority, filteredCards]);
+  }, [cardPriority, filteredCards, currentCardIndex]);
 
-  const handleArrowClick = useCallback((adjustment: number) => {
-    setCardPriority((prev) => {
-      const newPriorities = [...prev];
-      newPriorities[currentCardIndex] = Math.min(Math.max(newPriorities[currentCardIndex] + adjustment, 1), 100);
-      return newPriorities;
-    });
+  /*useEffect(() => {
 
-    if (enableArrowBtns && cardsLeft > 0) {
-      getNextCard();
-      setCardsLeft(cardsLeft - 1);
-      setEnableArrowBtns(false);
-      switch (adjustment) {
-        case 0:
-          setDirection('up');
-          break;
-        case 5:
-          setDirection('left');
-          break;
-        case 10:
-          setDirection('down');
-          break;
-        case -5:
-          setDirection('right');
-          break;
-        default:
-          break;
+    if (priorityAdjustment !== null) {
+      setCardPriority((prev) => {
+        const newPriorities = [...prev];
+        newPriorities[currentCardIndex] = Math.min(Math.max(newPriorities[currentCardIndex] + (priorityAdjustment ? priorityAdjustment : 0), 1), 100);
+        return newPriorities;
+      });
+  
+      setPriorityAdjustment(null); 
+      
+      if (isCorrect !== null){
+        setActiveDelay(true);
+      }else{
+        setActiveAnimation(true);
+        if (cardsLeft > 0) {
+          getNextCard();
+          setCardsLeft(cardsLeft - 1);
+        }
       }
-    }
-  }, [currentCardIndex, enableArrowBtns, cardsLeft, getNextCard]);
 
-  const arrowBtnClasses = clsx('w-auto flex flex-col items-center opacity-0', {
-    'animateFadeIn': enableArrowBtns,
-  });
-
-  const handleKeyPress = useCallback((event: KeyboardEvent) => {
-    switch (event.key) {
-      case "ArrowUp":
-        handleArrowClick(0);
-        break;
-      case "ArrowDown":
-        handleArrowClick(10);
-        break;
-      case "ArrowLeft":
-        handleArrowClick(5);
-        break;
-      case "ArrowRight":
-        handleArrowClick(-5);
-        break;
-      default:
-        break;
+      console.log("isCorrect: " + isCorrect);
+      console.log("Direction: " + direction);
+      console.log("activeAnimation: " + activeAnimation);
     }
-  }, [handleArrowClick]);
+  }, [priorityAdjustment, activeAnimation, setPriorityAdjustment, setActiveAnimation]); */
+
 
   useEffect(() => {
-    window.addEventListener('keydown', handleKeyPress);
-    return () => {
-      window.removeEventListener('keydown', handleKeyPress);
-    };
-  }, [handleKeyPress]);
+    if (priorityAdjustment !== 0) {
+      setCardPriority(prev => {
+        const newPriorities = [...prev];
+        newPriorities[currentCardIndex] = Math.min(Math.max(newPriorities[currentCardIndex] + (priorityAdjustment ?  priorityAdjustment : 0), 1), 100);
+        return newPriorities;
+      });
+      setPriorityAdjustment(0);
+
+      if (isCorrect === null) {
+        setActiveAnimation(true);
+        console.log("i got in!");
+        if (cardsLeft > 0) {
+          getNextCard();
+          setCardsLeft(prev => prev - 1);
+        }
+      } else setActiveDelay(true);
+      
+      console.log("isCorrect: " + isCorrect);
+      console.log("Direction: " + direction);
+      console.log("activeAnimation: " + activeAnimation);
+    }
+  }, [priorityAdjustment, isCorrect, currentCardIndex, cardsLeft, getNextCard]);
+
+  useEffect(() => {
+    let timer: number; 
+    if (activeDelay) {
+      setActiveAnimation(true);
+      setCorrect(null);
+      timer = window.setTimeout(() => {
+        if (cardsLeft > 0) {
+          getNextCard();
+          setCardsLeft(prev => prev - 1);
+        }
+        setActiveDelay(false);
+
+      }, 1000);
+    }
+    return () => window.clearTimeout(timer);
+  }, [activeDelay]);
 
   const elapsedTime = endTime && startTime ? ((endTime.getTime() - startTime.getTime()) / 1000).toFixed(2) : null;
 
@@ -127,26 +148,13 @@ const FixedCardsMode: React.FC<CardsModeProps> = ({ numberOfCards, filteredCards
       </div>
       {currentCard && (
         <div className="flex w-full h-full overflow-hidden">
-          <div className="flex justify-end items-center flex-grow">
-            <div className={arrowBtnClasses} onClick={() => handleArrowClick(5)}>
-              <ArrowLeftIcon className="w-8" /> <p>Easy</p>
-            </div>
-          </div>
-          <div className="flex flex-col items-center basis-auto flex-grow flex-shrink">
-            <div className={arrowBtnClasses} onClick={() => handleArrowClick(0)}>
-              <ArrowUpIcon className="w-8" /><p>Normal</p>
-            </div>
-            <Card key={currentCardIndex} card={currentCard} direction={direction} enableArrowBtns={enableArrowBtns} setEnableArrowBtns={setEnableArrowBtns} />
-            <div className={arrowBtnClasses} onClick={() => handleArrowClick(10)}>
-              <ArrowDownIcon className="w-8" /> <p>Challenging</p>
-            </div>
-          </div>
-          <div className="flex justify-start items-center flex-grow">
-            <div className={arrowBtnClasses} onClick={() => handleArrowClick(-5)}>
-              <ArrowRightIcon className="w-8" /> <p>Hard</p>
-            </div>
-          </div>
-        </div>
+        <div className="flex justify-end items-center flex-grow"/>
+        
+        <Card key={currentCardIndex} card={currentCard} isCorrect={isCorrect} setCorrect={setCorrect} 
+                priorityAdjustment={priorityAdjustment} setPriorityAdjutment={setPriorityAdjustment} setDirection={setDirection} classes={cardClasses}/>
+        
+        <div className="flex justify-start items-center flex-grow"/>
+      </div>
       )}
       {!currentCard && (
         <div className="h-full w-full bg-black bg-opacity-45 z-50 flex items-center justify-center">

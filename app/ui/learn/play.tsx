@@ -142,7 +142,8 @@ const Play: React.FC<PlayProps> = ({ mode, time, setTime, numberOfCards, filtere
             <div className={arrowBtnClasses} onClick={() => handleArrowClick(0)}>
               <ArrowUpIcon className="w-8" /><p>Normal</p>
             </div>
-            <Card key={currentCardIndex} card={currentCard} direction={direction} enableArrowBtns={enableArrowBtns} setEnableArrowBtns={setEnableArrowBtns} />
+            {/*<Card key={currentCardIndex} card={currentCard} direction={direction} enableArrowBtns={enableArrowBtns} setEnableArrowBtns={setEnableArrowBtns} />
+            */}
             <div className={arrowBtnClasses} onClick={() => handleArrowClick(10)}>
               <ArrowDownIcon className="w-8" /> <p>Challenging</p>
             </div>

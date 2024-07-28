@@ -1,48 +1,33 @@
 'use client';
-import { useState, useMemo, useCallback } from 'react';
+import { useState, useMemo } from 'react';
 import clsx from 'clsx';
 import { Card as CardType } from "@/app/lib/definitions";
 import RevealCard from "./reveal-card";
 import MultipleChoiceCard from './multiple-choice-card';
 import TrueFalseCard from './true-false-card';
 
+
 interface CardProps {
   card: CardType;
-  direction: "up" | "down" | "left" | "right" | null;
-  enableArrowBtns: boolean;
-  setEnableArrowBtns: React.Dispatch<React.SetStateAction<boolean>>;
+  isCorrect: boolean | null;
+  setCorrect: React.Dispatch<React.SetStateAction<boolean| null>>;
+  priorityAdjustment: number;
+  setPriorityAdjutment: React.Dispatch<React.SetStateAction<number>>;
+  classes: string;
+  setDirection: React.Dispatch<React.SetStateAction<"up"|"down"|"right"|"left"|null>>;
 }
 
-export default function Card({ card, direction, setEnableArrowBtns }: CardProps) {
-  const [isCorrect, setCorrect] = useState<boolean>(false);
-  const [isDisabled, setDisabled] = useState(false);
-
-  const cardClasses = useMemo(() => clsx(
-    'flex flex-col justify-between card-dimensions flex-wrap p-8 rounded-2xl border border-black content-center text-center shadow-lg bg-white',
-    {
-      'animateUp': direction === "up",
-      'animateDown': direction === "down",
-      'animateLeft': direction === "left",
-      'animateRight': direction === "right",
-      'correct': isCorrect && isDisabled,
-      'incorrect': !isCorrect && isDisabled,
-    }
-  ), [direction, isCorrect, isDisabled]);
-
-  return (
-    <div className={cardClasses}>
-      <div className='mt-16 text-center'>
-        <p className='whitespace-normal break-words'>{card.question}</p>
-      </div>
-      {card.card_type === 0 && (
-        <RevealCard card={card} setEnableArrowBtns={setEnableArrowBtns} setDisabled={setDisabled} isDisabled={isDisabled} />
-      )}
-      {card.card_type === 1 && (
-        <MultipleChoiceCard card={card} setEnableArrowBtns={setEnableArrowBtns} setDisabled={setDisabled} isDisabled={isDisabled} setCorrect={setCorrect} />
-      )}
-      {card.card_type === 2 && (
-        <TrueFalseCard card={card} setEnableArrowBtns={setEnableArrowBtns} setDisabled={setDisabled} isDisabled={isDisabled} setCorrect={setCorrect} />
-      )}
-    </div>
-  );
+export default function Card({ card, isCorrect, setCorrect, priorityAdjustment, setPriorityAdjutment , classes, setDirection}: CardProps) {
+  switch (card.card_type) {
+    case 0:
+      return <RevealCard card={card} setPriorityAdjustment={setPriorityAdjutment} classes ={classes} setDirection={setDirection}/>;
+    case 1:
+      return <MultipleChoiceCard card={card} isCorrect={isCorrect} setCorrect={setCorrect} 
+      priorityAdjustment={priorityAdjustment} setPriorityAdjustment={setPriorityAdjutment} classes ={classes} setDirection={setDirection}/>;
+    case 2:
+      return <TrueFalseCard card={card} isCorrect={isCorrect} setCorrect={setCorrect} 
+      priorityAdjustment={priorityAdjustment} setPriorityAdjustment={setPriorityAdjutment} classes ={classes} setDirection={setDirection}/>;
+    default:
+      return null;
+  }
 }
