@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import NavLinks from './nav-links';
-import { PowerIcon } from '@heroicons/react/24/outline';
+import { Logout } from "@mui/icons-material";
 import Image from "next/image";
 import { signOut } from '@/auth';
 
@@ -17,8 +17,8 @@ export default function SideNav() {
         }}>
          <button type='submit' className="flex h-[48px] w-full grow items-center justify-center gap-2  p-3 text-sm font-medium  hover:text-teal-500 md:flex-none ">
             <div className='flex flex-col items-center'>
-            <PowerIcon className="w-6" />
-            <p className="hidden md:block">Sign Out</p>
+            <Logout  />
+            <p className="hidden md:block">LogOut</p>
             </div>
           </button>
         </form>

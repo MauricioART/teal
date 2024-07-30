@@ -13,6 +13,11 @@ const config: Config = {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
+      screens: {
+        'xs':'320px',
+        'lg': '1135px', // large
+        // Añade más puntos de ruptura personalizados según sea necesario
+      },
     },
   },
   plugins: [],

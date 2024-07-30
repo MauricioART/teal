@@ -12,7 +12,7 @@ export default async function Page(){
 
     if (user_id != undefined){
         return(
-            <div className="h-full overflow-hidden flex flex-col">
+            <div className="h-fit overflow-hidden flex flex-col">
                 <div className="h-fit w-fit">
                     <Breadcrumbs breadcrumbs={[
                         { label: 'Learn', href: '/learn/' },

@@ -52,48 +52,49 @@ export default function NewDeckForm(props: FormProps) {
       formDataToSend.append('image', image);
     }
 
-    // Llamar a la función createDeck con los datos del formulario y owner_id como argumento
-    console.log(props.owner_id);
     await createDeck(formDataToSend);
   };
 
+  /*
+    
+  */
   return (
     <form onSubmit={handleSubmit}>
-      <div className="flex flex-col m-10 h-full p-10 bg-gray-200 rounded-md border-2 border-dotted border-purple-400">
-        <div>
+      <div className="new-deck-form m-10 h-fit p-10 rounded-md border-2 border-purple-600">
+        <div className="col-start-1 row-start-1 -order-2">
           <h1> Create </h1>
         </div>
+        <div className="col-start-1 row-start-2 row-end-5 input h-16 border-teal-500 border-2 mb-8 mt-8 rounded p-2 bg-white">
+          
+          <label htmlFor="name" className="text-gray-400">Title (Mandatory)</label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            className=" focus:outline-none focus:border-none w-full h-fit"
+            value={formData.name}
+            onChange={handleChange}
+            required
+          />
+        </div>
 
-        <div className="flex">
-          <div className=" w-5/6">
-            <div className="flex flex-col w-2/3 h-16 border-teal-500 border-2 border-dotted mb-8 mt-8 rounded p-2">
-              <label htmlFor="name" className="">Title (Mandatory)</label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                className="bg-gray-200 focus:outline-none focus:border-none"
-                value={formData.name}
-                onChange={handleChange}
-                required
-              />
-            </div>
-            <div className="flex flex-col w-2/3 h-28 border-2 border-teal-500 border-dotted mb-8 rounded p-2">
-              <label htmlFor="description">Description</label>
-              <textarea
-                id="description"
-                name="description"
-                rows={4}
-                cols={50}
-                className="bg-gray-200 focus:outline-none focus:border-none"
-                value={formData.description}
-                onChange={handleChange}
-                required
-              ></textarea>
-            </div>
-          </div>
-          <div className="relative">
-          <EditIcon 
+        <div className="flex flex-col col-start-1 row-start-5 row-end-9 input  h-28 border-2 border-teal-500  mb-8 rounded p-2 bg-white">
+          <label htmlFor="description" className="text-gray-400">Description</label>
+          <textarea
+            id="description"
+            name="description"
+            rows={4}
+            cols={50}
+            className=" focus:outline-none focus:border-none w-full h-full"
+            value={formData.description}
+            onChange={handleChange}
+            required
+          />
+        </div>
+
+        <div className="grid col-start-2 row-start-1 row-end-9 justify-center items-center -order-1">
+          <div className="relative h-fit w-fit">
+            <EditIcon 
                         className="h-8 w-8 p-1 absolute top-7 right-6 bg-gray-200 border opacity-50 border-gray-300 rounded-full hover:bg-gray-100 hover:p-0" 
                         key={1}
                         onClick={async (e) => {
@@ -101,9 +102,10 @@ export default function NewDeckForm(props: FormProps) {
                         }}
             />
             
-            <DeckIcon width={220}/>
+            <DeckIcon width={220} selectable={false}/>
           </div>
         </div>
+      </div>
 
         {/*<div>
           <label htmlFor="image">Thumbnail:</label>
@@ -117,7 +119,6 @@ export default function NewDeckForm(props: FormProps) {
           />
         </div>*/}
 
-      </div>
     </form>
   );
 }

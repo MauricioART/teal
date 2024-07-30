@@ -93,7 +93,7 @@ export default function CreateDeckStepper(props: Props) {
 
   return (
     <div className='grid grid-cols-1 grid-rows-5 items-center m-2 p-2 w-full h-full justify-around'>
-      <div className='row-span-4'>
+      <div className='row-span-4 h-full'>
         {activeStep === 0 && <NewDeckForm owner_id={props.user_id} formData={formData} setFormData={setFormData} />}
         {activeStep === 1 && <NewCardForm deck={deck} setDeck={setDeck}/>}
         {activeStep === 2 && <CardCollection add={false} cards={deck} deck_id={null}/> }

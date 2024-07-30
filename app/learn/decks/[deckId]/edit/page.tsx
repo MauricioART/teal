@@ -19,9 +19,9 @@ export default async function Page({ params }: { params: { deckId: string } }) {
           },
           { label: 'Edit',href: `learn/decks/${deckId}/edit`, active: true},
       ]} />
-      <div className='deck-edit-div h-full w-full overflow-hidden  '>
+      <div className='deck-edit-div h-full w-full px-8 py-4 overflow-hidden'>
         <div className=' col-start-1 col-end-2 justify-self-center place-self-center border-2 border-teal-400 rounded-md shadow-xl p-2'>
-          <DeckIcon />
+          <DeckIcon selectable={false}/>
         </div>
         <div className=' col-start-1 row-start-2 row-span-2 pl-6'>
           <p>Titulo: {deck[0].name}</p>        

@@ -19,7 +19,6 @@ export default function CardCollection(props: cardsProps){
     const [open, setOpen] = useState(false);
     const [currentCard, setCurrentCard] = useState<Card>();
     const [currentIndex, setCurrentIndex] = useState<number>(0);
-    const [checked, setChecked] = useState(true);
     
 
     function handleClick(card: Card ){
@@ -41,13 +40,6 @@ export default function CardCollection(props: cardsProps){
         setOpen(false);
     };
 
-    const handleOptionChange = (index: number, value: string) => {
-        if (currentCard != null && currentCard.options != undefined){
-        const newOptions = [...currentCard.options];
-        newOptions[index] = value;
-        setCurrentCard({ ...currentCard, options: newOptions });
-      }
-      };
     const handleDeleteCard = async (index: number) => {
         const deletedCard = deck.at(index);
         const newDeck = deck.filter( (card) => card !== deletedCard);
@@ -59,33 +51,29 @@ export default function CardCollection(props: cardsProps){
         }
 
     }
-    
-    const handleChecked = (event: React.ChangeEvent<HTMLInputElement>) =>{
-        setChecked(event.target.checked);
-        if (currentCard != null)
-            setCurrentCard({ ...currentCard, answer: event.target.checked ? 0 : 1 });
-    }
     return(
         <Fragment>
-        <div className="grid sm:grid-cols-3 md:grid-cols-4  lg:grid-cols-5 xl:grid-cols-7 mx-10 my-5">
+        <div className="grid gap-3 xs:grid-cols-2  sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7 mx-10 my-5">
             {deck.map((card, index) => {
                 return (
-                <button key={index}  className="justify-self-center relative w-fit h-fit" 
-                onClick={(event)=>{
-                    handleClick(card);
-                    setCurrentIndex(index);
-                    console.log(index);
-                }}>
-                    <CardIcon  id={`${index}`} className="hover:shadow-teal-600 hover:shadow-md"/>
-                    <DeleteOutlineIcon 
-                        className="h-8 w-8 p-1 absolute top-5 right-5 rounded-full hover:bg-gray-200 " 
-                        key={index}
-                        onClick={async (e) =>  {
-                            e.stopPropagation();
-                            await handleDeleteCard(index);
-                        }}
-                    />
-                </button>);
+                    <div className="h-[200px]">
+                        <button key={index}  className="justify-self-center relative w-fit h-fit" 
+                        onClick={(event)=>{
+                            handleClick(card);
+                            setCurrentIndex(index);
+                            console.log(index);
+                        }}>
+                            <CardIcon  id={`${index}`} className=""/>
+                            <DeleteOutlineIcon 
+                                className="h-8 w-8 p-1 absolute top-5 right-5 rounded-full hover:bg-gray-200 " 
+                                key={index}
+                                onClick={async (e) =>  {
+                                    e.stopPropagation();
+                                    await handleDeleteCard(index);
+                                }}
+                            />
+                        </button>
+                    </div>);
             })}
 
             {  props.add &&
