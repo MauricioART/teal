@@ -1,24 +1,26 @@
-import * as React from "react"
-import { SVGProps } from "react"
+'use client';
+import { SVGProps, useState } from "react"
 
 interface DeckSVGProps extends SVGProps<SVGSVGElement> {
     width?: number;
   }
 
-const AddDeckIcon = (props: DeckSVGProps) => {
-    const { width = 150, ...otherProps } = props;
+const AddDeckIcon: React.FC<DeckSVGProps>  = ({width = 150, ...props}) => {
+  const [scale, setScale] = useState<number>(1);
     return (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    width={width}
-    height={1.35 * width}
+    width={width * scale}
+    height={1.35 * width * scale}
     fill="none"
     viewBox="-20 -20 360 485" // Ajustar el viewBox según las nuevas dimensiones
+    onMouseOver={()=>{setScale(1.04)}}
+    onMouseLeave={()=>{setScale(1)}}
     {...props}
   >
    <rect
-      width={308}
-      height={419}
+      width={308 * scale}
+      height={419 * scale}
       x={1}
       y={1}
       fill="#fff"
@@ -27,8 +29,8 @@ const AddDeckIcon = (props: DeckSVGProps) => {
       rx={27}
     />
     <rect
-      width={308}
-      height={419}
+      width={308 * scale}
+      height={419 * scale}
       x={6}
       y={6}
       fill="#fff"
@@ -37,8 +39,8 @@ const AddDeckIcon = (props: DeckSVGProps) => {
       rx={27}
     />
     <rect
-      width={308}
-      height={419}
+      width={308 * scale}
+      height={419 * scale}
       x={11}
       y={11}
       fill="#fff"

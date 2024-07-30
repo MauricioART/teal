@@ -14,7 +14,7 @@ export default  function Deck(props: deckProps){
         console.log(url);
         return (
             <div className="flex flex-col items-center m-5 max-w-40">
-                <DeckIcon imageUrl={url}/>
+                <DeckIcon imageUrl={url} selectable={true}/>
                 <Tooltip title={deck.name}>
                     <p className="w-40 whitespace-nowrap justify-self-center overflow-hidden text-ellipsis text-center">{deck.name}</p>
                 </Tooltip>
@@ -26,7 +26,7 @@ export default  function Deck(props: deckProps){
     else {
         return (
             <div className="flex flex-col items-center m-5 max-w-40">
-                <DeckIcon imageUrl="https://img.freepik.com/free-vector/colorful-science-education-background_23-2148490697.jpg?size=626&ext=jpg&ga=GA1.1.2008272138.1721088000&semt=sph"/>
+                <DeckIcon imageUrl="" selectable={true}/>
                 <Tooltip title={deck.name}>
                     <p className="w-40 whitespace-nowrap justify-self-center overflow-hidden text-ellipsis text-center">{deck.name}</p>
                 </Tooltip>

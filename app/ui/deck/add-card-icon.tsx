@@ -1,24 +1,30 @@
+
 import * as React from "react"
-import { SVGProps } from "react"
+import { SVGProps, useState } from "react"
 
 interface DeckSVGProps extends SVGProps<SVGSVGElement> {
     width?: number;
   }
 
 const AddCardIcon = (props: DeckSVGProps) => {
-    const { width = 150, ...otherProps } = props;
+  const { width = 150, ...otherProps } = props;
+  const [scale, setScale] = useState<number>(1);
+  const [isSelected, setSelected] = useState<boolean>(false);
+  
     return (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    width={width}
-    height={1.35 * width}
+    width={width * scale}
+    height={1.35 * width * scale}
     fill="none"
     viewBox="-20 -20 360 485" // Ajustar el viewBox según las nuevas dimensiones
+    onMouseOver={()=>{setScale(1.04)}}
+    onMouseLeave={()=>{setScale(1)}}
     {...props}
   >
      <rect
-      width={308}
-      height={419}
+      width={308 * scale}
+      height={419 * scale}
       x={1}
       y={1}
       fill="#fff"
