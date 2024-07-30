@@ -20,16 +20,15 @@ const UserFormSchema = z.object({
   password: z.optional(z.string()),
 });
 const CardFormSchema = z.object({
-  card_id: z.number(),
+  card_id: z.string().uuid(),
   deck_id: z.string().uuid(),
-  question: z.string(),
-  answer: z.union([z.string(), z.number()]),
-  options: z.optional(z.array(z.string())),
-  card_type: z.union([z.string(), z.number()])
+  front: z.string(),
+  back: z.string(),
+  image: z.optional(z.string())
 });
   
 const CreateCard = CardFormSchema.omit({card_id:true});
-const DeleteCard = CardFormSchema.omit({question: true, answer: true, options:true,card_type: true})
+const DeleteCard = CardFormSchema.omit({front: true, back: true})
  
 
 export async function deleteInvoice ( invoiceId: string , formData: FormData){
@@ -41,28 +40,14 @@ export async function deleteInvoice ( invoiceId: string , formData: FormData){
 }
 
 export async function createCard(deckId: string, card: Card, redirectionPath: string){
-  const {deck_id, question, answer, options, card_type} = CreateCard.parse({
+  const {deck_id, front, back} = CreateCard.parse({
     deck_id : deckId,
-    question: card.question,
-    answer: card.answer,
-    options: card.options,
-    card_type: card.card_type
+    front: card.front,
+    back: card.back
   });
-  if (options != undefined){
-    let optionsStr = "{";
-    options.map((option,index)=>{
-      if (index < options.length - 1)
-        optionsStr = optionsStr + '"' + option + '"' + ",";
-      else
-        optionsStr = optionsStr + '"' + option + '"' + "}";
-    console.log(optionsStr);
-    });
-    const response = await sql`INSERT INTO cards (deck_id,question,answer,options,card_type)
-                              VALUES (${deck_id},${question},${answer},${optionsStr},${card_type})`;
-  }else{
-    const response = await sql`INSERT INTO cards (deck_id,question,answer,card_type)
-                              VALUES (${deck_id},${question},${answer},${card_type})`;
-  }
+  const response = await sql`INSERT INTO cards (deck_id,front,back)
+                              VALUES (${deck_id},${front},${back})`;
+  
   revalidatePath(redirectionPath);
   redirect(redirectionPath);
 }
@@ -76,31 +61,17 @@ export async function deleteCard(cardId: number, deckId: string){
 }
 
 export async function updateCard(card : Card){
-  const {card_id, deck_id, question, answer, options, card_type} = CardFormSchema.parse({
+  const {card_id, deck_id, front, back} = CardFormSchema.parse({
     deck_id : card.deck_id,
-    question: card.question,
-    answer: card.answer,
-    options: card.options,
-    card_type: card.card_type,
+    front: card.front,
+    back: card.back,
     card_id : card.card_id,
   });
-  if (options != undefined){
-    let optionsStr = "{";
-    options.map((option,index)=>{
-      if (index < options.length - 1)
-        optionsStr = optionsStr + '"' + option + '"' + ",";
-      else
-        optionsStr = optionsStr + '"' + option + '"' + "}";
-    console.log(optionsStr);
-    });
-    const response = await sql`UPDATE cards SET (deck_id,question,answer,options,card_type)
-                              = (${deck_id},${question},${answer},${optionsStr},${card_type})
+  
+  const response = await sql`UPDATE cards SET (front,back)
+                              = (${front},${back})
                               WHERE deck_id = ${deck_id} AND card_id = ${card_id}`;
-  }else{
-    const response = await sql`UPDATE cards SET (deck_id,question,answer,card_type)
-                              = (${deck_id},${question},${answer},${card_type})
-                              WHERE deck_id = ${deck_id} AND card_id = ${card_id}`;
-  }
+  
 }
 
 export async function createDeck(formData : FormData){

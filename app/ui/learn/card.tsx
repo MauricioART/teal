@@ -1,33 +1,48 @@
-'use client';
-import { useState, useMemo } from 'react';
-import clsx from 'clsx';
+import React, { useState, useCallback, useEffect } from 'react';
+import Button from './Button';
 import { Card as CardType } from "@/app/lib/definitions";
-import RevealCard from "./reveal-card";
-import MultipleChoiceCard from './multiple-choice-card';
-import TrueFalseCard from './true-false-card';
-
 
 interface CardProps {
   card: CardType;
-  isCorrect: boolean | null;
-  setCorrect: React.Dispatch<React.SetStateAction<boolean| null>>;
-  priorityAdjustment: number;
-  setPriorityAdjutment: React.Dispatch<React.SetStateAction<number>>;
-  classes: string;
-  setDirection: React.Dispatch<React.SetStateAction<"up"|"down"|"right"|"left"|null>>;
+  setEnableArrowBtns: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function Card({ card, isCorrect, setCorrect, priorityAdjustment, setPriorityAdjutment , classes, setDirection}: CardProps) {
-  switch (card.card_type) {
-    case 0:
-      return <RevealCard card={card} setPriorityAdjustment={setPriorityAdjutment} classes ={classes} setDirection={setDirection}/>;
-    case 1:
-      return <MultipleChoiceCard card={card} isCorrect={isCorrect} setCorrect={setCorrect} 
-      priorityAdjustment={priorityAdjustment} setPriorityAdjustment={setPriorityAdjutment} classes ={classes} setDirection={setDirection}/>;
-    case 2:
-      return <TrueFalseCard card={card} isCorrect={isCorrect} setCorrect={setCorrect} 
-      priorityAdjustment={priorityAdjustment} setPriorityAdjustment={setPriorityAdjutment} classes ={classes} setDirection={setDirection}/>;
-    default:
-      return null;
-  }
-}
+const Card: React.FC<CardProps> = ({ card, setEnableArrowBtns}) => {
+  const [reveal, setReveal] = useState(false);
+  const [isDisabled, setDisabled] = useState(false);
+
+  const handleReveal = useCallback(() => {
+    setReveal((prev) => !prev);
+    setEnableArrowBtns(true);
+    setDisabled(true);
+  }, []);
+
+  const handleKeyPress = useCallback((event: KeyboardEvent)=>{
+    if (event.key === " " && !isDisabled)
+      handleReveal();
+  },[handleReveal, isDisabled]);
+
+  useEffect(()=>{
+    window.addEventListener("keydown",handleKeyPress);
+    return () => {
+      window.removeEventListener('keydown', handleKeyPress);
+    };
+  },[handleKeyPress]);
+
+  return (
+    <>
+    <div className='mt-16 text-center'>
+      <p className='whitespace-normal break-words'>{card.front}</p>
+    </div>
+    <div className={reveal ? '' : 'invisible'}>
+      <p>{card.back}</p>
+    </div>
+    <div className='mb-16'>
+      <Button id={0} text="Reveal" color="#1679AB" handleButtonClick={handleReveal} isDisabled={isDisabled} />
+    </div>
+  </>
+      
+  );
+};
+
+export default Card;
